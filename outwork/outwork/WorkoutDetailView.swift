@@ -11,8 +11,8 @@ struct WorkoutDetailView: View {
     var workout = Workout()
     
     var body: some View {
-        Text("\(workout.workoutItem)")
-        Text("Workout Duration")
+        Text(workout.workoutTitle)
+        Text(workout.workoutDescription)
     }
 }
 

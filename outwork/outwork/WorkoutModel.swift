@@ -10,14 +10,17 @@ import Combine
 
 struct Workout : Identifiable {
     var id = String()
-    var workoutItem = String()
+    var workoutTitle = String()
+    var workoutDescription = String()
 }
 
 class WorkoutStore : ObservableObject {
     @Published var workouts = [Workout]()
     
     init(){
-        self.workouts = [Workout(id: "1", workoutItem: "This is a workout item"), Workout(id: "2", workoutItem: "This is a workout item"), Workout(id: "3", workoutItem: "This is a workout item")]
+        self.workouts = [Workout(id: "1", workoutTitle: "Workout Title", workoutDescription: "This is a workout description"),
+                         Workout(id: "2", workoutTitle: "Workout Title", workoutDescription: "This is a workout description"),
+                         Workout(id: "3", workoutTitle: "Workout Title", workoutDescription: "This is a workout description")]
     }
     
 }

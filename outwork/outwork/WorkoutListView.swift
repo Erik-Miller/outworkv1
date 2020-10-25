@@ -10,48 +10,54 @@ import Combine
 
 struct WorkoutListView: View {
     @ObservedObject var workoutStore = WorkoutStore()
-    @State var newWorkout: String = ""
+    @State var newWorkoutTitle: String = ""
+    @State var newWorkoutDescription: String = ""
     @State private var addWorkoutSheet = false
     
     
-    //MARK: Add New Workout Sheet
+    //Add New Workout Sheet
     var AddWorkoutView : some View {
-        VStack{
-            Spacer()
-            TextField("Enter a workout name", text: self.$newWorkout)
-                .padding()
-            Button(action: self.addNewWorkout, label: {
-                Text("Add Workout")
-            })
-            Spacer()
-        }.background(Color.pink).edgesIgnoringSafeArea(.all).foregroundColor(.white)
-    }
+            VStack{
+                Text("Add Workout").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).foregroundColor(.white).padding(50)
+                TextField("Enter a workout name", text: self.$newWorkoutTitle)
+                    .padding()
+                TextField("Enter a workout description", text: self.$newWorkoutDescription)
+                    .padding()
+                Button(action: self.addNewWorkout, label: {
+                    Text("Add Workout")
+                }).padding()
+                Spacer()
+            }.navigationBarTitle("Add Workout").accentColor(.white)
+            .background(Color.pink).edgesIgnoringSafeArea(.all).foregroundColor(.white)
+        }
     
-    //MARK: Add New Workout to workoutStore
+    //MARK: TODO: Add empty field error handling
     func addNewWorkout() {
-        workoutStore.workouts.append(Workout(id: String(workoutStore.workouts.count + 1), workoutItem: newWorkout))
-        self.newWorkout = ""
+        workoutStore.workouts.append(Workout(id: String(workoutStore.workouts.count + 1), workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription))
+        self.newWorkoutTitle = ""
         self.addWorkoutSheet.toggle()
     }
     
     //MARK: Main Workout List View
     var body: some View {
         NavigationView {
-
-                
+            
+            
             VStack{
                 List{
                     ForEach(self.workoutStore.workouts) { workout in
-                        NavigationLink(destination: Text(workout.workoutItem)) {
-                            Text(workout.workoutItem)
-                                .padding()
+                        NavigationLink(destination: WorkoutDetailView(workout: workout)) {
+                            VStack(alignment: .leading){
+                                Text(workout.workoutTitle)
+                                Text(workout.workoutDescription)
+                                
+                            }.padding()
                         }
                     }.onMove(perform: self.move)
                     .onDelete(perform: self.delete)
-                    
                 }
-                
-            }.navigationBarTitle("Workouts")
+            }
+            .navigationTitle("Workouts")
             //.navigationBarItems(trailing: EditButton())
             .navigationBarItems(trailing: Button(action: {self.addWorkoutSheet.toggle()}, label: {
                 Text("Add Workout").accentColor(.pink)
@@ -76,6 +82,7 @@ struct WorkoutListView: View {
 
 struct WorkoutListView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutListView()
+       WorkoutListView()
     }
 }
+
