@@ -55,7 +55,7 @@ struct WorkoutListView: View {
                         }
                     }.onMove(perform: self.move)
                     .onDelete(perform: self.delete)
-                }
+                }.listStyle(GroupedListStyle())
             }
             .navigationTitle("Workouts")
             //.navigationBarItems(trailing: EditButton())
