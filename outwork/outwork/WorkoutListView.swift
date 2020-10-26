@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct WorkoutListView: View {
-    @ObservedObject var workoutStore = WorkoutStore()
+    @StateObject var workoutStore = WorkoutStore()
     @State var newWorkoutTitle: String = ""
     @State var newWorkoutDescription: String = ""
     @State private var addWorkoutSheet = false
@@ -17,19 +17,19 @@ struct WorkoutListView: View {
     
     //Add New Workout Sheet
     var AddWorkoutView : some View {
-            VStack{
-                Text("Add Workout").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).foregroundColor(.white).padding(50)
-                TextField("Enter a workout name", text: self.$newWorkoutTitle)
-                    .padding()
-                TextField("Enter a workout description", text: self.$newWorkoutDescription)
-                    .padding()
-                Button(action: self.addNewWorkout, label: {
-                    Text("Add Workout")
-                }).padding()
-                Spacer()
-            }.navigationBarTitle("Add Workout").accentColor(.white)
-            .background(Color.pink).edgesIgnoringSafeArea(.all).foregroundColor(.white)
-        }
+        VStack{
+            Text("Add Workout").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).foregroundColor(.white).padding(50)
+            TextField("Enter a workout name", text: self.$newWorkoutTitle)
+                .padding()
+            TextField("Enter a workout description", text: self.$newWorkoutDescription)
+                .padding()
+            Button(action: self.addNewWorkout, label: {
+                Text("Add Workout")
+            }).padding()
+            Spacer()
+        }.navigationBarTitle("Add Workout").accentColor(.white)
+        .background(Color.pink).edgesIgnoringSafeArea(.all).foregroundColor(.white)
+    }
     
     //MARK: TODO: Add empty field error handling
     func addNewWorkout() {
@@ -82,7 +82,7 @@ struct WorkoutListView: View {
 
 struct WorkoutListView_Previews: PreviewProvider {
     static var previews: some View {
-       WorkoutListView()
+        WorkoutListView()
     }
 }
 

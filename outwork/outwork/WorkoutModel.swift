@@ -13,6 +13,12 @@ struct Workout : Identifiable {
     var workoutTitle = String()
     var workoutDescription = String()
 }
+    
+    //MARK: TODO - Figure out how to present two different types of workout forms
+//    enum WorkoutType: String {
+//        case timePriority, workPriority
+//    }
+//}
 
 class WorkoutStore : ObservableObject {
     @Published var workouts = [Workout]()
