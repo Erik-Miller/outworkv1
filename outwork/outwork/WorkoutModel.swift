@@ -8,17 +8,25 @@
 import Foundation
 import Combine
 
-struct Workout : Identifiable, Decodable, Encodable {
+struct Workout : Identifiable, Decodable, Encodable, Hashable {
     var id = String()
     var workoutTitle = String()
     var workoutDescription = String()
+    
 }
+
+struct WorkoutList{
+    var workoutList: [Workout: [WorkoutResult]]
+}
+
 
 struct WorkoutResult: Identifiable {
     var id = String()
     var workoutTime = String()
     var workoutReps = String()
 }
+
+
 
 // Example Workouts
 
