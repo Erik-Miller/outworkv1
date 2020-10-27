@@ -34,6 +34,8 @@ struct WorkoutListView: View {
     //MARK: TODO: Add empty field error handling
     func addNewWorkout() {
         workoutStore.workouts.append(Workout(id: String(workoutStore.workouts.count + 1), workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription))
+        self.workoutStore.save()
+        print("Item saved")
         self.newWorkoutTitle = ""
         self.addWorkoutSheet.toggle()
     }
@@ -50,7 +52,6 @@ struct WorkoutListView: View {
                             VStack(alignment: .leading){
                                 Text(workout.workoutTitle)
                                 Text(workout.workoutDescription)
-                                
                             }.padding()
                         }
                     }.onMove(perform: self.move)
@@ -62,7 +63,7 @@ struct WorkoutListView: View {
             .navigationBarItems(trailing: Button(action: {self.addWorkoutSheet.toggle()}, label: {
                 Text("Add Workout").accentColor(.pink)
             }))
-        }
+        }.accentColor( .white)
         
         .sheet(isPresented: $addWorkoutSheet, content: {
             AddWorkoutView
@@ -71,10 +72,12 @@ struct WorkoutListView: View {
     }
     func move(from source: IndexSet, to destination : Int){
         workoutStore.workouts.move(fromOffsets: source, toOffset: destination)
+        self.workoutStore.save()
     }
     
     func delete(at offsets: IndexSet){
         workoutStore.workouts.remove(atOffsets: offsets)
+        self.workoutStore.save()
     }
     
 }
