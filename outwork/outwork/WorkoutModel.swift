@@ -12,13 +12,11 @@ struct Workout : Identifiable, Decodable, Encodable, Hashable {
     var id = String()
     var workoutTitle = String()
     var workoutDescription = String()
-    
 }
 
 struct WorkoutList{
     var workoutList: [Workout: [WorkoutResult]]
 }
-
 
 struct WorkoutResult: Identifiable {
     var id = String()
@@ -26,9 +24,7 @@ struct WorkoutResult: Identifiable {
     var workoutReps = String()
 }
 
-
-
-// Example Workouts
+// Example Workout
 
 //Workout for Time
 
@@ -41,6 +37,12 @@ struct WorkoutResult: Identifiable {
 //
 //♀ 145 lb. ♂ 235 lb.
 
+//Example Results
+//Time in seconds (or time in minutes and seconds such as 3:35)
+
+
+//Example Workout
+
 //Workout for Reps/Rounds
 
 //Complete as many rounds as possible in 7 minutes of:
@@ -49,7 +51,12 @@ struct WorkoutResult: Identifiable {
 //10 overhead squats
 //
 //♀ 95 lb. ♂135 lb.
-//
+
+//Example Results
+//Total Reps
+
+
+
 
 
     
