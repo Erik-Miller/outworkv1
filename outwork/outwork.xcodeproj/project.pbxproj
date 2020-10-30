@@ -37,6 +37,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		151E33C9254B944100A13064 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DC60E4C325461F1300A17DA0 /* WorkoutListView.swift */,
+				DC37863525462CAD00B5E9CB /* WorkoutDetailView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		151E33CA254B944C00A13064 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DC60E4C02546185500A17DA0 /* WorkoutModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		DC60E4A0254617D900A17DA0 = {
 			isa = PBXGroup;
 			children = (
@@ -56,10 +73,9 @@
 		DC60E4AB254617D900A17DA0 /* outwork */ = {
 			isa = PBXGroup;
 			children = (
+				151E33CA254B944C00A13064 /* Models */,
+				151E33C9254B944100A13064 /* Views */,
 				DC60E4AC254617DA00A17DA0 /* outworkApp.swift */,
-				DC60E4C325461F1300A17DA0 /* WorkoutListView.swift */,
-				DC37863525462CAD00B5E9CB /* WorkoutDetailView.swift */,
-				DC60E4C02546185500A17DA0 /* WorkoutModel.swift */,
 				DC60E4B0254617DA00A17DA0 /* Assets.xcassets */,
 				DC60E4B5254617DA00A17DA0 /* Info.plist */,
 				DC60E4B2254617DA00A17DA0 /* Preview Content */,
