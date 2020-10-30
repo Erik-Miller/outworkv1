@@ -33,7 +33,12 @@ struct WorkoutListView: View {
     
     //MARK: TODO: Add empty field error handling
     func addNewWorkout() {
-        workoutStore.workouts.append(Workout(id: String(workoutStore.workouts.count + 1), workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription))
+        workoutStore.workouts.append(
+            Workout(
+                workoutTitle: newWorkoutTitle,
+                workoutDescription: newWorkoutDescription
+            )
+        )
         self.workoutStore.save()
         print("Item saved")
         self.newWorkoutTitle = ""
@@ -50,8 +55,8 @@ struct WorkoutListView: View {
                     ForEach(self.workoutStore.workouts) { workout in
                         NavigationLink(destination: WorkoutDetailView(workout: workout)) {
                             VStack(alignment: .leading){
-                                Text(workout.workoutTitle)
-                                Text(workout.workoutDescription)
+                                Text(workout.title)
+                                Text(workout.description)
                             }.padding()
                         }
                     }.onMove(perform: self.move)

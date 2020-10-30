@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WorkoutDetailView: View {
     @ObservedObject var workoutStore = WorkoutStore()
-    var workout = Workout()
+    var workout = Workout.mockWorkout
     var workoutResult = WorkoutResult()
     
     @State private var addResultSheet = false
@@ -40,10 +40,10 @@ struct WorkoutDetailView: View {
             
             VStack{
                 VStack{
-                Text(workout.workoutTitle)
+                Text(workout.title)
                     .font(.title)
                     .padding()
-                Text(workout.workoutDescription)
+                Text(workout.description)
                     .padding(.bottom)
                 Spacer()
                 HStack{
