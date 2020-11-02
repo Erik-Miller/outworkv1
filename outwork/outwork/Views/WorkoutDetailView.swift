@@ -35,54 +35,64 @@ struct WorkoutDetailView: View {
     }
     
     var body: some View {
+        VStack{
             VStack{
-                VStack{
-                    Text(workout.title)
-                        .font(.title)
-                        .padding()
-                    Text(workout.description)
-                        .padding(.bottom)
-                    HStack{
-                        Text(workoutMovement.movementName)
-                                .padding(.bottom)
-                        Text("@\(workoutMovement.movementWeight) Lbs")
-                                .padding(.bottom)
-                        Text("for \(workoutMovement.movementReps) Reps")
-                                .padding(.bottom)
-                            }
-                        }
-                      
-                    VStack{
+                Text(workout.title)
+                    .font(.title)
+                    .padding()
+                Text(workout.description)
+                    .padding(.bottom)
+                
+                ForEach(workoutStore.workoutMovements, id: \.self) { workoutMovement in
+                    VStack(alignment: .leading){
                         HStack{
-                            Text("Results")
-                                .font(.title2)
-                                .padding()
-                            Spacer()
+                            if let workoutName = workoutMovement.movementName, !workoutName.isEmpty {
+                            Text(workoutMovement.movementName)
+                            }
+                            if let workoutWeight = workoutMovement.movementWeight, !workoutWeight.isEmpty {
+                            Text("@\(workoutMovement.movementWeight) Lbs")
+                            }
+                            if let workoutReps = workoutMovement.movementReps, !workoutReps.isEmpty {
+                            Text("for \(workoutMovement.movementReps) Reps")
+                            }
+
                         }
-                    }.padding().frame(height: 50)
+                    }
                 }
-                List{
-                    
-                    ForEach(self.workoutStore.workoutResults) { workoutResult in
-                        VStack(alignment: .leading){
-                            Text("Workout Time: \(workoutResult.workoutTime)")
-                            Text("Workout Reps: \(workoutResult.workoutReps)")
-                        }.padding()
-                        
-                        
-                    }.onMove(perform: self.move)
-                    .onDelete(perform: self.delete)
-                }
-                Spacer()
-                HStack{
-                    Button(action: {self.addResultSheet.toggle()}, label: {
-                        Spacer()
-                        Text("Add Result")
-                        Spacer()
-                    }).padding().frame(height: 60).background(Color.pink).foregroundColor(.white)
-                }
-                .sheet(isPresented: $addResultSheet, content: {AddResultView})
             }
+            Spacer()
+            
+            VStack{
+                HStack{
+                    Text("Results")
+                        .font(.title2)
+                        .padding()
+                    Spacer()
+                }
+            }.padding().frame(height: 50)
+        }
+        List{
+            
+            ForEach(self.workoutStore.workoutResults) { workoutResult in
+                VStack(alignment: .leading){
+                    Text("Workout Time: \(workoutResult.workoutTime)")
+                    Text("Workout Reps: \(workoutResult.workoutReps)")
+                }.padding()
+                
+                
+            }.onMove(perform: self.move)
+            .onDelete(perform: self.delete)
+        }
+        Spacer()
+        HStack{
+            Button(action: {self.addResultSheet.toggle()}, label: {
+                Spacer()
+                Text("Add Result")
+                Spacer()
+            }).padding().frame(height: 60).background(Color.pink).foregroundColor(.white)
+        }
+        .sheet(isPresented: $addResultSheet, content: {AddResultView})
+    }
     
     func addNewResult() {
         workoutStore.workoutResults.append(WorkoutResult(id: "", workoutTime: workoutTime, workoutReps: workoutReps))

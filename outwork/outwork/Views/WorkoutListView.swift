@@ -10,6 +10,8 @@ import Combine
 
 struct WorkoutListView: View {
     @StateObject var workoutStore = WorkoutStore()
+
+
     
     // MARK: - Field States
     @State var newWorkoutTitle: String = ""
@@ -24,7 +26,7 @@ struct WorkoutListView: View {
     @State private var showAddWorkoutView = false
     
     @State private var movementCounter = 1
-    var addWorkoutMovements = [WorkoutMovement]()
+    @State var addWorkoutMovements: [WorkoutMovement] = []
     
     var AddMovementFields : some View {
         VStack{
@@ -64,9 +66,9 @@ struct WorkoutListView: View {
                 }
                 Spacer()
                 VStack(spacing: 0){
-                if workoutStore.workoutMovements.count > 0{
+                if addWorkoutMovements.count > 0{
                     List{
-                        ForEach(workoutStore.workoutMovements, id: \.self) { workoutMovement in
+                        ForEach(addWorkoutMovements, id: \.self) { workoutMovement in
                             VStack{
                                 HStack{
                                     Text(workoutMovement.movementName)
@@ -100,17 +102,17 @@ struct WorkoutListView: View {
     //MARK: TODO: Add empty field error handling
     func addNewMovementView() {
         //movementCounter += 1
-        workoutStore.workoutMovements.append(WorkoutMovement(movementName: newMovementName, movementWeight: newMovementWeight, movementReps: newMovementReps))
-        self.newMovementName = ""
-        self.newMovementReps = ""
-        self.newMovementWeight = ""
-        
+        addWorkoutMovements.append(WorkoutMovement(movementName: newMovementName, movementWeight: newMovementWeight, movementReps: newMovementReps))
+        newMovementName = ""
+        newMovementReps = ""
+        newMovementWeight = ""
     }
     
     func addNewWorkout() {
         workoutStore.workouts.append(
             Workout(workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription, workoutMovements: addWorkoutMovements))
         
+        addWorkoutMovements = []
         self.workoutStore.save()
         print("Item saved")
         self.newWorkoutTitle = ""

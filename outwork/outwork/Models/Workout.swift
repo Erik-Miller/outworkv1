@@ -35,7 +35,8 @@ struct Workout {
 }
 
 struct WorkoutList{
-    var workoutList: [Workout: [WorkoutResult]]
+    var workoutListResults:[Workout: [WorkoutResult]]
+    var workoutListMovements: [Workout: [WorkoutMovement]]
 }
 
 struct WorkoutResult: Identifiable {

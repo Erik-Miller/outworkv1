@@ -29,6 +29,10 @@ class WorkoutStore : ObservableObject {
         self.workoutResults = [WorkoutResult(id: "1", workoutTime: "600", workoutReps: ""),
                                WorkoutResult(id: "2", workoutTime: "900", workoutReps: "56"),
                                WorkoutResult(id: "3", workoutTime: "", workoutReps: "56"),]
+        
+        self.workoutMovements = [WorkoutMovement(movementName: "Pull up", movementWeight: "", movementReps: "50"),
+                                 WorkoutMovement(movementName: "Air Squat", movementWeight: "", movementReps: "50"),
+                                 WorkoutMovement(movementName: "Push up", movementWeight: "", movementReps: "50")]
     }
 
     func save() {
