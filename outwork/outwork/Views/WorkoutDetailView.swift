@@ -67,7 +67,8 @@ struct WorkoutDetailView: View {
                         }.padding()
                         
                         
-                    }
+                    }.onMove(perform: self.move)
+                    .onDelete(perform: self.delete)
                 }
                 Spacer()
                 HStack{
@@ -76,17 +77,9 @@ struct WorkoutDetailView: View {
                         Text("Add Result")
                         Spacer()
                     }).padding().frame(height: 60).background(Color.pink)
-                    
-                
                 }
-                
+                .sheet(isPresented: $addResultSheet, content: {AddResultView})
             }
-            .sheet(isPresented: $addResultSheet, content: {
-                AddResultView
-            })
-            
-        
-        
     }
     
     func addNewResult() {
@@ -97,6 +90,16 @@ struct WorkoutDetailView: View {
         self.workoutTime = ""
         self.addResultSheet.toggle()
         
+    }
+    
+    func move(from source: IndexSet, to destination : Int){
+        workoutStore.workoutResults.move(fromOffsets: source, toOffset: destination)
+        self.workoutStore.save()
+    }
+    
+    func delete(at offsets: IndexSet){
+        workoutStore.workoutResults.remove(atOffsets: offsets)
+        self.workoutStore.save()
     }
 }
 
