@@ -10,50 +10,111 @@ import Combine
 
 struct WorkoutListView: View {
     @StateObject var workoutStore = WorkoutStore()
+    
+    // MARK: - Field States
     @State var newWorkoutTitle: String = ""
     @State var newWorkoutDescription: String = ""
-    @State private var addWorkoutSheet = false
     
     @State var newMovementReps: String = ""
     @State var newMovementName: String = ""
     @State var newMovementWeight: String = ""
     
     
+    // MARK: - View States
+    @State private var showAddWorkoutView = false
+    
+    @State private var movementCounter = 1
+    var addWorkoutMovements = [WorkoutMovement]()
+    
+    var AddMovementFields : some View {
+        VStack{
+            ForEach(0..<movementCounter, id: \.self) { index in
+                TextField("Movement", text: $newMovementName)
+                    .padding()
+                HStack{
+                    TextField("Weight", text: $newMovementWeight)
+                        .padding()
+                    TextField("Reps", text: $newMovementReps)
+                        .padding()
+                }
+            }
+        }
+    }
+    
+    
+    
     //Add New Workout Sheet
     var AddWorkoutView : some View {
         VStack{
-            Text("Add Workout").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).foregroundColor(.white).padding(50)
+            Text("Add Workout")
+                .font(.title).fontWeight(.bold).padding(50)
             TextField("Enter a workout name", text: self.$newWorkoutTitle)
                 .padding()
             TextField("Enter a workout description", text: self.$newWorkoutDescription)
                 .padding()
-            TextField("Enter movement name", text: self.$newMovementName)
-                .padding()
-            TextField("Enter movement weight", text: self.$newMovementWeight)
-                .padding()
-            TextField("Enter movement reps", text: self.$newMovementReps)
-                .padding()
-            Button(action: self.addNewWorkout, label: {
-                Text("Add Workout")
-            }).padding()
-            Spacer()
-        }.navigationBarTitle("Add Workout").accentColor(.white)
+            Divider()
+            
+            VStack{
+                VStack{
+                    AddMovementFields
+                    Button(action: addNewMovementView, label: {
+                        Text("Add Movement")
+                            .padding()
+                    })
+                }
+                Spacer()
+                VStack(spacing: 0){
+                if workoutStore.workoutMovements.count > 0{
+                    List{
+                        ForEach(workoutStore.workoutMovements, id: \.self) { workoutMovement in
+                            VStack{
+                                HStack{
+                                    Text(workoutMovement.movementName)
+                                    Text("\(workoutMovement.movementWeight) Lbs")
+                                    Text("\(workoutMovement.movementReps) Reps")
+                                }
+                            }.padding()
+                        }.padding(0)
+                    }.listStyle(InsetGroupedListStyle()).padding(0)
+                    
+                }
+                }
+                VStack{
+                    HStack{
+                        Spacer()
+                        Button(action: self.addNewWorkout, label: {
+                            Text("Add Workout")
+                                .padding()
+                        })
+                        Spacer()
+                    }
+                }.frame(height: 80).background(Color.black)
+            }
+
+            
+            
+        }.navigationBarTitle("Add Workout").accentColor(.pink)
         .background(Color.pink).edgesIgnoringSafeArea(.all).foregroundColor(.white)
     }
     
     //MARK: TODO: Add empty field error handling
+    func addNewMovementView() {
+        //movementCounter += 1
+        workoutStore.workoutMovements.append(WorkoutMovement(movementName: newMovementName, movementWeight: newMovementWeight, movementReps: newMovementReps))
+        self.newMovementName = ""
+        self.newMovementReps = ""
+        self.newMovementWeight = ""
+        
+    }
+    
     func addNewWorkout() {
         workoutStore.workouts.append(
-            Workout(
-                workoutTitle: newWorkoutTitle,
-                workoutDescription: newWorkoutDescription,
-                workoutMovement: WorkoutMovement(movementName: newMovementName, movementWeight: newMovementWeight, movementReps: newMovementReps)
-            )
-        )
+            Workout(workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription, workoutMovements: addWorkoutMovements))
+        
         self.workoutStore.save()
         print("Item saved")
         self.newWorkoutTitle = ""
-        self.addWorkoutSheet.toggle()
+        self.showAddWorkoutView.toggle()
     }
     
     //MARK: Main Workout List View
@@ -68,7 +129,6 @@ struct WorkoutListView: View {
                             VStack(alignment: .leading){
                                 Text(workout.title)
                                 Text(workout.description)
-                                Text(workout.workoutMovement.movementName)
                             }.padding()
                         }
                     }.onMove(perform: self.move)
@@ -77,15 +137,14 @@ struct WorkoutListView: View {
             }
             .navigationTitle("Workouts")
             //.navigationBarItems(trailing: EditButton())
-            .navigationBarItems(trailing: Button(action: {self.addWorkoutSheet.toggle()}, label: {
+            .navigationBarItems(trailing: Button(action: {self.showAddWorkoutView.toggle()}, label: {
                 Text("Add Workout").accentColor(.pink)
             }))
-        }.accentColor( .white)
+        }.accentColor( .pink)
         
-        .sheet(isPresented: $addWorkoutSheet, content: {
+        .sheet(isPresented: $showAddWorkoutView, content: {
             AddWorkoutView
         })
-        
     }
     func move(from source: IndexSet, to destination : Int){
         workoutStore.workouts.move(fromOffsets: source, toOffset: destination)
@@ -105,4 +164,5 @@ struct WorkoutListView_Previews: PreviewProvider {
         WorkoutListView()
     }
 }
+
 

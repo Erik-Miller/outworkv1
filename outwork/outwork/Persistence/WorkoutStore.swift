@@ -22,9 +22,9 @@ class WorkoutStore : ObservableObject {
             }
         }
 
-        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovement: WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovement: WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovement: WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50"))]
+        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")])]
 
         self.workoutResults = [WorkoutResult(id: "1", workoutTime: "600", workoutReps: ""),
                                WorkoutResult(id: "2", workoutTime: "900", workoutReps: "56"),

@@ -13,7 +13,7 @@ extension Workout {
         return Workout(
             workoutTitle: "Squat Thrusts",
             workoutDescription: "This is a placeholder workout description.",
-            workoutMovement: WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")
+            workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]
         )
     }
 }

@@ -19,18 +19,18 @@ struct Workout {
     // This will be used to uniquely identify workouts.
     var date: Date
     
-    var workoutMovement: WorkoutMovement
+    var workoutMovements = [WorkoutMovement]()
     
     init(
         workoutTitle: String,
         workoutDescription: String,
         completionDate: Date = Date(),
-        workoutMovement: WorkoutMovement
+        workoutMovements: [WorkoutMovement]
     ) {
         self.title = workoutTitle
         self.description = workoutDescription
         self.date = completionDate
-        self.workoutMovement = workoutMovement
+        self.workoutMovements = workoutMovements
     }
 }
 

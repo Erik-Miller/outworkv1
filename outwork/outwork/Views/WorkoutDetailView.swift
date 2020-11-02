@@ -11,6 +11,7 @@ struct WorkoutDetailView: View {
     @ObservedObject var workoutStore = WorkoutStore()
     var workout = Workout.mockWorkout
     var workoutResult = WorkoutResult()
+    var workoutMovement = WorkoutMovement()
     
     @State private var addResultSheet = false
     
@@ -42,13 +43,15 @@ struct WorkoutDetailView: View {
                     Text(workout.description)
                         .padding(.bottom)
                     HStack{
-                        Text(workout.workoutMovement.movementName)
-                            .padding(.bottom)
-                        Text("@\(workout.workoutMovement.movementWeight) Lbs")
-                            .padding(.bottom)
-                        Text("for \(workout.workoutMovement.movementReps) Reps")
-                            .padding(.bottom)
-                    }
+                        Text(workoutMovement.movementName)
+                                .padding(.bottom)
+                        Text("@\(workoutMovement.movementWeight) Lbs")
+                                .padding(.bottom)
+                        Text("for \(workoutMovement.movementReps) Reps")
+                                .padding(.bottom)
+                            }
+                        }
+                      
                     VStack{
                         HStack{
                             Text("Results")
@@ -76,11 +79,10 @@ struct WorkoutDetailView: View {
                         Spacer()
                         Text("Add Result")
                         Spacer()
-                    }).padding().frame(height: 60).background(Color.pink)
+                    }).padding().frame(height: 60).background(Color.pink).foregroundColor(.white)
                 }
                 .sheet(isPresented: $addResultSheet, content: {AddResultView})
             }
-    }
     
     func addNewResult() {
         workoutStore.workoutResults.append(WorkoutResult(id: "", workoutTime: workoutTime, workoutReps: workoutReps))
