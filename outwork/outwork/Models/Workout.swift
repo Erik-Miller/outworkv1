@@ -11,22 +11,26 @@ import Combine
 struct Workout {
     // The title of the workout
     var title: String
-
+    
     // The description of the workout
     var description: String
-
+    
     // The date and time the workout was completed.
     // This will be used to uniquely identify workouts.
     var date: Date
-
+    
+    var workoutMovement: WorkoutMovement
+    
     init(
         workoutTitle: String,
         workoutDescription: String,
-        completionDate: Date = Date()
+        completionDate: Date = Date(),
+        workoutMovement: WorkoutMovement
     ) {
         self.title = workoutTitle
         self.description = workoutDescription
         self.date = completionDate
+        self.workoutMovement = workoutMovement
     }
 }
 
@@ -40,10 +44,17 @@ struct WorkoutResult: Identifiable {
     var workoutReps = String()
 }
 
+struct WorkoutMovement: Identifiable, Codable, Hashable {
+    var id = String()
+    var movementName = String()
+    var movementWeight = String()
+    var movementReps = String()
+}
+
 // MARK: - Identifiable Implementation
 
 extension Workout: Identifiable {
-
+    
     var id: ObjectIdentifier {
         // Don't worry about whats happening here.
         return .init(date as NSDate)
@@ -101,8 +112,8 @@ extension Workout: Hashable {
 
 
 
-    
-    //MARK: TODO - Figure out how to present two different types of workout forms
+
+//MARK: TODO - Figure out how to present two different types of workout forms
 //    enum WorkoutType: String {
 //        case timePriority, workPriority
 //    }

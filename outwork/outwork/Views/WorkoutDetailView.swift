@@ -34,29 +34,31 @@ struct WorkoutDetailView: View {
     }
     
     var body: some View {
-        ZStack{
-            Color.pink
-                .edgesIgnoringSafeArea(.all)
-            
             VStack{
                 VStack{
-                Text(workout.title)
-                    .font(.title)
-                    .padding()
-                Text(workout.description)
-                    .padding(.bottom)
-                Spacer()
-                HStack{
-                    Text("Results")
-                        .font(.title2)
+                    Text(workout.title)
+                        .font(.title)
                         .padding()
-                    Spacer()
-                    Button(action: {self.addResultSheet.toggle()}, label: {
-                        Text("Add Result")
-                    })
+                    Text(workout.description)
+                        .padding(.bottom)
+                    HStack{
+                        Text(workout.workoutMovement.movementName)
+                            .padding(.bottom)
+                        Text("@\(workout.workoutMovement.movementWeight) Lbs")
+                            .padding(.bottom)
+                        Text("for \(workout.workoutMovement.movementReps) Reps")
+                            .padding(.bottom)
+                    }
+                    VStack{
+                        HStack{
+                            Text("Results")
+                                .font(.title2)
+                                .padding()
+                            Spacer()
+                        }
+                    }.padding().frame(height: 50)
                 }
-                }.padding().frame(maxHeight: 150)
-                    List{
+                List{
                     
                     ForEach(self.workoutStore.workoutResults) { workoutResult in
                         VStack(alignment: .leading){
@@ -67,12 +69,23 @@ struct WorkoutDetailView: View {
                         
                     }
                 }
+                Spacer()
+                HStack{
+                    Button(action: {self.addResultSheet.toggle()}, label: {
+                        Spacer()
+                        Text("Add Result")
+                        Spacer()
+                    }).padding().frame(height: 60).background(Color.pink)
+                    
+                
+                }
                 
             }
             .sheet(isPresented: $addResultSheet, content: {
                 AddResultView
             })
-        }
+            
+        
         
     }
     

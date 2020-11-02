@@ -10,6 +10,7 @@ import Foundation
 class WorkoutStore : ObservableObject {
     @Published var workouts = [Workout]()
     @Published var workoutResults = [WorkoutResult]()
+    @Published var workoutMovements = [WorkoutMovement]()
 
     init(){
 
@@ -21,9 +22,9 @@ class WorkoutStore : ObservableObject {
             }
         }
 
-        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description"),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description"),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description")]
+        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovement: WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovement: WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovement: WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50"))]
 
         self.workoutResults = [WorkoutResult(id: "1", workoutTime: "600", workoutReps: ""),
                                WorkoutResult(id: "2", workoutTime: "900", workoutReps: "56"),

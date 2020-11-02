@@ -12,7 +12,8 @@ extension Workout {
     static var mockWorkout: Workout {
         return Workout(
             workoutTitle: "Squat Thrusts",
-            workoutDescription: "This is a placeholder workout description."
+            workoutDescription: "This is a placeholder workout description.",
+            workoutMovement: WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")
         )
     }
 }

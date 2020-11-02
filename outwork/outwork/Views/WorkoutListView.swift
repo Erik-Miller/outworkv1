@@ -14,6 +14,10 @@ struct WorkoutListView: View {
     @State var newWorkoutDescription: String = ""
     @State private var addWorkoutSheet = false
     
+    @State var newMovementReps: String = ""
+    @State var newMovementName: String = ""
+    @State var newMovementWeight: String = ""
+    
     
     //Add New Workout Sheet
     var AddWorkoutView : some View {
@@ -22,6 +26,12 @@ struct WorkoutListView: View {
             TextField("Enter a workout name", text: self.$newWorkoutTitle)
                 .padding()
             TextField("Enter a workout description", text: self.$newWorkoutDescription)
+                .padding()
+            TextField("Enter movement name", text: self.$newMovementName)
+                .padding()
+            TextField("Enter movement weight", text: self.$newMovementWeight)
+                .padding()
+            TextField("Enter movement reps", text: self.$newMovementReps)
                 .padding()
             Button(action: self.addNewWorkout, label: {
                 Text("Add Workout")
@@ -36,7 +46,8 @@ struct WorkoutListView: View {
         workoutStore.workouts.append(
             Workout(
                 workoutTitle: newWorkoutTitle,
-                workoutDescription: newWorkoutDescription
+                workoutDescription: newWorkoutDescription,
+                workoutMovement: WorkoutMovement(movementName: newMovementName, movementWeight: newMovementWeight, movementReps: newMovementReps)
             )
         )
         self.workoutStore.save()
@@ -57,6 +68,7 @@ struct WorkoutListView: View {
                             VStack(alignment: .leading){
                                 Text(workout.title)
                                 Text(workout.description)
+                                Text(workout.workoutMovement.movementName)
                             }.padding()
                         }
                     }.onMove(perform: self.move)
