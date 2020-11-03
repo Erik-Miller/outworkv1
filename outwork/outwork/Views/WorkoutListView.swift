@@ -77,10 +77,10 @@ struct WorkoutListView: View {
                                 }
                             }.padding()
                         }.padding(0)
-                    }.listStyle(InsetGroupedListStyle()).padding(0)
+                    }.listStyle(InsetGroupedListStyle()).padding(0).foregroundColor(.pink)
                     
                 }
-                }
+                
                 VStack{
                     HStack{
                         Spacer()
@@ -91,6 +91,7 @@ struct WorkoutListView: View {
                         Spacer()
                     }
                 }.frame(height: 80).background(Color.black)
+            }
             }
 
             
@@ -103,6 +104,9 @@ struct WorkoutListView: View {
     func addNewMovementView() {
         //movementCounter += 1
         addWorkoutMovements.append(WorkoutMovement(movementName: newMovementName, movementWeight: newMovementWeight, movementReps: newMovementReps))
+        
+        let currentWorkoutMovements = addWorkoutMovements
+        print(currentWorkoutMovements)
         newMovementName = ""
         newMovementReps = ""
         newMovementWeight = ""
@@ -112,7 +116,8 @@ struct WorkoutListView: View {
         workoutStore.workouts.append(
             Workout(workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription, workoutMovements: addWorkoutMovements))
         
-        addWorkoutMovements = []
+        let currentWorkoutWithMovements = workoutStore.workouts
+        print(currentWorkoutWithMovements)
         self.workoutStore.save()
         print("Item saved")
         self.newWorkoutTitle = ""

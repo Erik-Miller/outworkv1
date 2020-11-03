@@ -11,7 +11,6 @@ struct WorkoutDetailView: View {
     @ObservedObject var workoutStore = WorkoutStore()
     var workout = Workout.mockWorkout
     var workoutResult = WorkoutResult()
-    var workoutMovement = WorkoutMovement()
     
     @State private var addResultSheet = false
     
@@ -43,7 +42,7 @@ struct WorkoutDetailView: View {
                 Text(workout.description)
                     .padding(.bottom)
                 
-                ForEach(workoutStore.workoutMovements, id: \.self) { workoutMovement in
+                ForEach(workout.workoutMovements, id: \.self) { workoutMovement in
                     VStack(alignment: .leading){
                         HStack{
                             if let workoutName = workoutMovement.movementName, !workoutName.isEmpty {
@@ -59,6 +58,7 @@ struct WorkoutDetailView: View {
                         }
                     }
                 }
+                
             }
             Spacer()
             
