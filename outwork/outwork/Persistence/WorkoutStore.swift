@@ -14,17 +14,10 @@ class WorkoutStore : ObservableObject {
 
     init(){
 
-        if let data = UserDefaults.standard.data(forKey: "SavedData") {
-            if let decoded = try? JSONDecoder().decode([Workout].self,
-                                                       from: data) {
-                self.workouts = decoded
-                return
-            }
+        self.workouts = DataStore.readDataFromDisk()
+        if workouts.isEmpty {
+            seed()
         }
-
-        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")]),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")])]
 
         self.workoutResults = [WorkoutResult(id: "1", workoutTime: "600", workoutReps: ""),
                                WorkoutResult(id: "2", workoutTime: "900", workoutReps: "56"),
@@ -36,9 +29,18 @@ class WorkoutStore : ObservableObject {
     }
 
     func save() {
-        if let encoded = try? JSONEncoder().encode(workouts) {
-            UserDefaults.standard.set(encoded, forKey: "SaveData")
-        }
+        DataStore.writeDataToDisk(data: workouts)
     }
 
+}
+
+extension WorkoutStore {
+
+    func seed() {
+        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")])]
+
+        save()
+    }
 }
