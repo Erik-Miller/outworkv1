@@ -9,9 +9,33 @@ import SwiftUI
 
 @main
 struct outworkApp: App {
+    @State private var selection = 0
+    
     var body: some Scene {
         WindowGroup {
-            WorkoutListView()
+            TabView(selection: $selection){
+                WorkoutDiscoverView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "bonjour")
+                            Text("Discover")
+                            
+                        }
+                    }
+                    .tag(1)
+                
+                WorkoutListView()
+                    .tabItem {
+                        VStack {
+                            Image(systemName: "bolt")
+                            Text("Workouts")
+                        }
+                    }
+                    .tag(0)
+                
+                
+            }
+            .accentColor(Color.pink)
         }
     }
 }
