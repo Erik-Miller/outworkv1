@@ -10,9 +10,9 @@ import Combine
 
 struct WorkoutListView: View {
     @StateObject var workoutStore = WorkoutStore()
-    var workout = Workout.mockWorkout
-
-
+    @State var workout = Workout.mockWorkout
+    
+    
     
     // MARK: - Field States
     @State var newWorkoutTitle: String = ""
@@ -22,6 +22,8 @@ struct WorkoutListView: View {
     @State var newWorkoutRounds: String = ""
     @State var newWorkoutTime: String = ""
     
+    @State var selectedMovement = 0
+    var workoutMovements = ["Clean & Jerk", "Snatch", "Air Squats"]
     @State var newMovementReps: String = ""
     @State var newMovementName: String = ""
     @State var newMovementWeight: String = ""
@@ -62,25 +64,25 @@ struct WorkoutListView: View {
     var AddWorkoutView : some View {
         VStack{
             Text("Add Workout")
-                .font(.title).fontWeight(.bold).padding(50)
+                .font(.title).fontWeight(.bold).padding((EdgeInsets(top: 40, leading: 0, bottom: 20, trailing: 0)))
             TextField("Enter a workout name", text: self.$newWorkoutTitle)
                 .padding()
-            TextField("Enter a workout description", text: self.$newWorkoutDescription)
+            Divider().padding(0)
+            TextField("Enter a workout description (optional)", text: self.$newWorkoutDescription)
                 .padding()
+            Divider().padding(0)
             Picker(selection: $workoutPrioritySelector, label: Text("Workout Priority"), content: {
-                Text("Time Priority").tag(0)
-                Text("Work Priority").tag(1)
-            }).pickerStyle(SegmentedPickerStyle())
+                Text("Time Priority").tag(0).padding()
+                Text("Work Priority").tag(1).padding()
+            }).pickerStyle(SegmentedPickerStyle()).padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
             
             if workoutPrioritySelector == 0 {
-            TextField("Enter workout time", text: self.$newWorkoutTime)
-                .padding()
-                
+                TextField("Enter workout time", text: self.$newWorkoutTime)
+                    .padding()
             }
             else {
-            TextField("Enter workout rounds", text: self.$newWorkoutRounds)
-                .padding()
-                
+                TextField("Enter workout rounds", text: self.$newWorkoutRounds)
+                    .padding()
             }
             Divider()
             
@@ -92,25 +94,28 @@ struct WorkoutListView: View {
                             .padding()
                     })
                 }
-                Spacer()
+                Divider()
                 VStack(spacing: 0){
-                if addWorkoutMovements.count > 0{
-                    List{
-                        ForEach(addWorkoutMovements, id: \.self) { workoutMovement in
-                            VStack{
-                                HStack{
-                                    
-                                    Text(workoutMovement.movementName)
-                                    Text("\(workoutMovement.movementWeight) Lbs")
-                                    Text("\(workoutMovement.movementReps) Reps")
-                                }
-                            }.padding()
-                        }.padding(0)
-                    }.listStyle(InsetGroupedListStyle()).padding(0).foregroundColor(.pink)
-                    
-                }
-                
-                VStack{
+                    if addWorkoutMovements.count > 0{
+                        List{
+                            ForEach(self.addWorkoutMovements, id: \.self) { workoutMovement in
+                                VStack{
+                                    HStack{
+                                        if let workoutName = workoutMovement.movementName, !workoutName.isEmpty {
+                                            Text(workoutMovement.movementName)
+                                        }
+                                        if let workoutWeight = workoutMovement.movementWeight, !workoutWeight.isEmpty {
+                                            Text("@\(workoutMovement.movementWeight) Lbs")
+                                        }
+                                        if let workoutReps = workoutMovement.movementReps, !workoutReps.isEmpty {
+                                            Text("for \(workoutMovement.movementReps) Reps")
+                                        }
+                                    }
+                                }.padding()
+                            }.onDelete(perform: deleteMovement).padding(0)
+                        }.listStyle(InsetGroupedListStyle()).padding(0).foregroundColor(.pink)
+                    }
+                    Spacer()
                     HStack{
                         Spacer()
                         Button(action: self.addNewWorkout, label: {
@@ -118,15 +123,18 @@ struct WorkoutListView: View {
                                 .padding()
                         })
                         Spacer()
-                    }
-                }.frame(height: 80).background(Color.black)
+                        
+                    }.frame(height: 100).background(Color.black)
+                }
             }
-            }
-
-            
-            
         }.navigationBarTitle("Add Workout").accentColor(.pink)
         .edgesIgnoringSafeArea(.all).foregroundColor(.white)
+        
+        
+    }
+    func deleteMovement(at offsets: IndexSet){
+        addWorkoutMovements.remove(atOffsets: offsets)
+        self.workoutStore.save()
     }
     
     //MARK: TODO: Add empty field error handling
@@ -153,8 +161,12 @@ struct WorkoutListView: View {
         self.workoutStore.save()
         print("Item saved")
         self.newWorkoutTitle = ""
+        self.addWorkoutMovements = []
         self.showAddWorkoutView.toggle()
     }
+    
+    
+    
     
     //MARK: Main Workout List View
     var body: some View {

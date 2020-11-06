@@ -38,7 +38,7 @@ struct WorkoutDetailView: View {
             VStack{
                 Text(workout.title)
                     .font(.title)
-                    .padding()
+                    .padding(.bottom)
                 Text(workout.description)
                     .padding(.bottom)
                 
@@ -58,10 +58,7 @@ struct WorkoutDetailView: View {
                         }
                     }
                 }
-                
-            }
-            Spacer()
-            
+            }.padding(.bottom, 30)
             VStack{
                 HStack{
                     Text("Results")
@@ -91,6 +88,7 @@ struct WorkoutDetailView: View {
                 Spacer()
             }).padding().frame(height: 60).background(Color.pink).foregroundColor(.white)
         }
+        
         .sheet(isPresented: $addResultSheet, content: {AddResultView})
     }
     

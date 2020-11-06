@@ -62,7 +62,7 @@ struct WorkoutMovement: Identifiable, Codable, Hashable {
 
 // MARK: - Identifiable Implementation
 
-extension Workout: Identifiable {
+extension Workout: Identifiable{
     
     var id: ObjectIdentifier {
         // Don't worry about whats happening here.
