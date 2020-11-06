@@ -10,12 +10,17 @@ import Combine
 
 struct WorkoutListView: View {
     @StateObject var workoutStore = WorkoutStore()
+    var workout = Workout.mockWorkout
 
 
     
     // MARK: - Field States
     @State var newWorkoutTitle: String = ""
     @State var newWorkoutDescription: String = ""
+    
+    @State var workoutPrioritySelector = 0
+    @State var newWorkoutRounds: String = ""
+    @State var newWorkoutTime: String = ""
     
     @State var newMovementReps: String = ""
     @State var newMovementName: String = ""
@@ -43,6 +48,14 @@ struct WorkoutListView: View {
         }
     }
     
+    //MARK: Data Formatting
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }
+    
     
     
     //Add New Workout Sheet
@@ -54,6 +67,21 @@ struct WorkoutListView: View {
                 .padding()
             TextField("Enter a workout description", text: self.$newWorkoutDescription)
                 .padding()
+            Picker(selection: $workoutPrioritySelector, label: Text("Workout Priority"), content: {
+                Text("Time Priority").tag(0)
+                Text("Work Priority").tag(1)
+            }).pickerStyle(SegmentedPickerStyle())
+            
+            if workoutPrioritySelector == 0 {
+            TextField("Enter workout time", text: self.$newWorkoutTime)
+                .padding()
+                
+            }
+            else {
+            TextField("Enter workout rounds", text: self.$newWorkoutRounds)
+                .padding()
+                
+            }
             Divider()
             
             VStack{
@@ -71,6 +99,7 @@ struct WorkoutListView: View {
                         ForEach(addWorkoutMovements, id: \.self) { workoutMovement in
                             VStack{
                                 HStack{
+                                    
                                     Text(workoutMovement.movementName)
                                     Text("\(workoutMovement.movementWeight) Lbs")
                                     Text("\(workoutMovement.movementReps) Reps")
@@ -97,7 +126,7 @@ struct WorkoutListView: View {
             
             
         }.navigationBarTitle("Add Workout").accentColor(.pink)
-        .background(Color.pink).edgesIgnoringSafeArea(.all).foregroundColor(.white)
+        .edgesIgnoringSafeArea(.all).foregroundColor(.white)
     }
     
     //MARK: TODO: Add empty field error handling
@@ -105,16 +134,19 @@ struct WorkoutListView: View {
         //movementCounter += 1
         addWorkoutMovements.append(WorkoutMovement(movementName: newMovementName, movementWeight: newMovementWeight, movementReps: newMovementReps))
         
-        let currentWorkoutMovements = addWorkoutMovements
-        print(currentWorkoutMovements)
         newMovementName = ""
         newMovementReps = ""
         newMovementWeight = ""
+        newWorkoutTime = ""
+        newWorkoutRounds = ""
+        workoutPrioritySelector = 0
     }
     
     func addNewWorkout() {
+        //MARK: - TODO: If title is empty, insert date of workout
+        
         workoutStore.workouts.append(
-            Workout(workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription, workoutMovements: addWorkoutMovements))
+            Workout(workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription, workoutTime: newWorkoutTime, workoutRounds: newWorkoutRounds, workoutMovements: addWorkoutMovements))
         
         let currentWorkoutWithMovements = workoutStore.workouts
         print(currentWorkoutWithMovements)
@@ -136,6 +168,10 @@ struct WorkoutListView: View {
                             VStack(alignment: .leading){
                                 Text(workout.title)
                                 Text(workout.description)
+                                    .padding(.top, 5)
+                                Text(dateFormatter.string(from: workout.date))
+                                    .font(.caption)
+                                    .padding(.top, 5)
                             }.padding()
                         }
                     }.onMove(perform: self.move)

@@ -19,18 +19,27 @@ struct Workout {
     // This will be used to uniquely identify workouts.
     var date: Date
     
+    var workoutTime: String
+    var workoutRounds: String
+    
     var workoutMovements = [WorkoutMovement]()
     
     init(
         workoutTitle: String,
         workoutDescription: String,
         completionDate: Date = Date(),
+        workoutTime: String,
+        workoutRounds: String,
         workoutMovements: [WorkoutMovement]
+       
     ) {
         self.title = workoutTitle
         self.description = workoutDescription
         self.date = completionDate
+        self.workoutTime = workoutTime
+        self.workoutRounds = workoutRounds
         self.workoutMovements = workoutMovements
+        
     }
 }
 

@@ -13,6 +13,28 @@ struct WorkoutDiscoverView: View {
         var body: some View {
             NavigationView {
                 VStack {
+                    VStack(alignment: .leading){
+                        Text("Popular Workouts")
+                            .padding(.leading)
+                        ScrollView(.horizontal, showsIndicators: false){
+                            HStack{
+                            ForEach(0...5, id: \.self) { index in
+                                VStack{
+                                    Text("Workout Name")
+                                    HStack{
+                                        Spacer()
+                                        Button("Add Workout", action: {})
+                                        .padding(.top)
+                                            .font(.caption)
+                                        .foregroundColor(.white)
+                                    }
+                                }.padding().background(Color.pink).cornerRadius(20)
+                                Spacer()
+                            }
+                            }.padding()
+                            
+                        }
+                    }
                     VStack(alignment: .leading) {
                         HStack{
                             
@@ -37,13 +59,11 @@ struct WorkoutDiscoverView: View {
                         }
                         Spacer()
                     }.frame(maxHeight: 100).padding().background(Color.gray)
-                    VStack{
-                        
-                    }
+                    
                     Spacer()
                     
                     
-                }.padding(.top).navigationTitle("Insights")
+                }.padding(.top).navigationTitle("Discover")
             }
         }
     }

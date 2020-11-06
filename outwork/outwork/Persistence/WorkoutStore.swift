@@ -37,9 +37,9 @@ class WorkoutStore : ObservableObject {
 extension WorkoutStore {
 
     func seed() {
-        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")]),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")])]
+        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "15", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "", workoutRounds: "10", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "15", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")])]
 
         save()
     }
@@ -60,17 +60,17 @@ extension WorkoutStore {
     //MARK: - My Attempt at this
     func totalReps2(workouts: [Workout]) -> String {
         
-        var repCounts:[Int] = []
-        let totalReps = repCounts.reduce(0, +)
-        let totalRepString = String(totalReps)
-        
-        for workout in workouts {
-            for movement in workoutMovements {
-                let repCount = Int(movement.movementReps) ?? 0
-                repCounts.append(repCount)
-            }
-        }
-        return totalRepString
+//        var repCounts:[Int] = []
+//        let totalReps = repCounts.reduce(0, +)
+//        let totalRepString = String(totalReps)
+//
+//        for workout in workouts {
+//            for movement in workoutMovements {
+//                let repCount = Int(movement.movementReps) ?? 0
+//                repCounts.append(repCount)
+//            }
+//        }
+      return "Reps"
     }
     
     func weeklyReps(workouts: [Workout]) -> String {
