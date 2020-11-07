@@ -35,20 +35,6 @@ struct WorkoutListView: View {
     @State private var movementCounter = 1
     @State var addWorkoutMovements: [WorkoutMovement] = []
     
-    var AddMovementFields : some View {
-        VStack{
-            ForEach(0..<movementCounter, id: \.self) { index in
-                TextField("Movement", text: $newMovementName)
-                    .padding()
-                HStack{
-                    TextField("Weight", text: $newMovementWeight)
-                        .padding()
-                    TextField("Reps", text: $newMovementReps)
-                        .padding()
-                }
-            }
-        }
-    }
     
     //MARK: Data Formatting
     var dateFormatter: DateFormatter {
@@ -56,6 +42,47 @@ struct WorkoutListView: View {
         formatter.dateStyle = .short
         formatter.timeStyle = .short
         return formatter
+    }
+    
+    //MARK: Main Workout List View
+    var body: some View {
+        NavigationView {
+            VStack{
+                List{
+                    ForEach(self.workoutStore.workouts) { workout in
+                        NavigationLink(destination: WorkoutDetailView(workout: workout)) {
+                            VStack(alignment: .leading){
+                                Text(workout.title)
+                                Text(workout.description)
+                                    .padding(.top, 5)
+                                Text(dateFormatter.string(from: workout.date))
+                                    .font(.caption)
+                                    .padding(.top, 5)
+                            }.padding()
+                        }
+                    }.onMove(perform: self.move)
+                    .onDelete(perform: self.delete)
+                }.listStyle(GroupedListStyle())
+            }
+            .navigationTitle("Workouts")
+            //.navigationBarItems(trailing: EditButton())
+            .navigationBarItems(trailing: Button(action: {self.showAddWorkoutView.toggle()}, label: {
+                Text("Add Workout").accentColor(.pink)
+            }))
+        }.accentColor( .pink)
+        
+        .sheet(isPresented: $showAddWorkoutView, content: {
+            AddWorkoutView
+        })
+    }
+    func move(from source: IndexSet, to destination : Int){
+        workoutStore.workouts.move(fromOffsets: source, toOffset: destination)
+        self.workoutStore.save()
+    }
+    
+    func delete(at offsets: IndexSet){
+        workoutStore.workouts.remove(atOffsets: offsets)
+        self.workoutStore.save()
     }
     
     
@@ -126,9 +153,9 @@ struct WorkoutListView: View {
                         
                     }.frame(height: 100).background(Color.black)
                 }
-            }
-        }.navigationBarTitle("Add Workout").accentColor(.pink)
-        .edgesIgnoringSafeArea(.all).foregroundColor(.white)
+            }.navigationBarTitle("Add Workout").accentColor(.pink)
+            .edgesIgnoringSafeArea(.all).foregroundColor(.white)
+        }
         
         
     }
@@ -165,52 +192,20 @@ struct WorkoutListView: View {
         self.showAddWorkoutView.toggle()
     }
     
-    
-    
-    
-    //MARK: Main Workout List View
-    var body: some View {
-        NavigationView {
-            
-            
-            VStack{
-                List{
-                    ForEach(self.workoutStore.workouts) { workout in
-                        NavigationLink(destination: WorkoutDetailView(workout: workout)) {
-                            VStack(alignment: .leading){
-                                Text(workout.title)
-                                Text(workout.description)
-                                    .padding(.top, 5)
-                                Text(dateFormatter.string(from: workout.date))
-                                    .font(.caption)
-                                    .padding(.top, 5)
-                            }.padding()
-                        }
-                    }.onMove(perform: self.move)
-                    .onDelete(perform: self.delete)
-                }.listStyle(GroupedListStyle())
+    var AddMovementFields : some View {
+        VStack{
+            ForEach(0..<movementCounter, id: \.self) { index in
+                TextField("Movement", text: $newMovementName)
+                    .padding()
+                HStack{
+                    TextField("Weight", text: $newMovementWeight)
+                        .padding()
+                    TextField("Reps", text: $newMovementReps)
+                        .padding()
+                }
             }
-            .navigationTitle("Workouts")
-            //.navigationBarItems(trailing: EditButton())
-            .navigationBarItems(trailing: Button(action: {self.showAddWorkoutView.toggle()}, label: {
-                Text("Add Workout").accentColor(.pink)
-            }))
-        }.accentColor( .pink)
-        
-        .sheet(isPresented: $showAddWorkoutView, content: {
-            AddWorkoutView
-        })
+        }
     }
-    func move(from source: IndexSet, to destination : Int){
-        workoutStore.workouts.move(fromOffsets: source, toOffset: destination)
-        self.workoutStore.save()
-    }
-    
-    func delete(at offsets: IndexSet){
-        workoutStore.workouts.remove(atOffsets: offsets)
-        self.workoutStore.save()
-    }
-    
 }
 
 
