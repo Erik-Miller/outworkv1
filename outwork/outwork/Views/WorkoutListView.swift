@@ -89,47 +89,49 @@ struct WorkoutListView: View {
     
     //Add New Workout Sheet
     var AddWorkoutView : some View {
-        VStack{
-            Text("Add Workout")
-                .font(.title).fontWeight(.bold).padding((EdgeInsets(top: 40, leading: 0, bottom: 20, trailing: 0)))
-            TextField("Enter a workout name", text: self.$newWorkoutTitle)
-                .padding()
-            Divider().padding(0)
-            TextField("Enter a workout description (optional)", text: self.$newWorkoutDescription)
-                .padding()
-            Divider().padding(0)
-            Picker(selection: $workoutPrioritySelector, label: Text("Workout Priority"), content: {
-                Text("Time Priority").tag(0).padding()
-                Text("Work Priority").tag(1).padding()
-            }).pickerStyle(SegmentedPickerStyle()).padding(EdgeInsets(top: 10, leading: 10, bottom: 0, trailing: 10))
-            
-            if workoutPrioritySelector == 0 {
-                TextField("Enter workout time", text: self.$newWorkoutTime)
-                    .padding()
-            }
-            else {
-                TextField("Enter workout rounds", text: self.$newWorkoutRounds)
-                    .padding()
-            }
-            Divider()
-            
+        NavigationView{
             VStack{
-                VStack{
-                    AddMovementFields
-                    Button(action: addNewMovementView, label: {
-                        Text("Add Movement")
-                            .padding()
-                    })
+                Form{
+                    Section(header: Text("Workout Details")){
+                        TextField("Workout Name", text: self.$newWorkoutTitle)
+                        TextField("Workout Description (optional)", text: self.$newWorkoutDescription)
+                        Picker(selection: $workoutPrioritySelector, label: Text("Workout Priority"), content: {
+                            Text("Time Priority").tag(0)
+                            Text("Work Priority").tag(1)
+                        }).pickerStyle(SegmentedPickerStyle()).padding((EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10)))
+                        if workoutPrioritySelector == 0 {
+                            TextField("Time to Complete (in minutes)", text: self.$newWorkoutTime)
+                        }
+                        else {
+                            TextField("Rounds to Complete", text: self.$newWorkoutRounds)
+                        }
+                    }
+                    Section(header: Text("movements")){
+                            ForEach(0..<movementCounter, id: \.self) { index in
+                                TextField("Movement", text: $newMovementName)
+                                HStack{
+                                    TextField("Weight", text: $newMovementWeight)
+                                    TextField("Reps", text: $newMovementReps)
+                                }
+                                HStack{
+                                    TextField("Distance", text: $newMovementReps)
+                                    TextField("Calories", text: $newMovementReps)
+                                }
+                            }
+                            Button(action: addNewMovementView, label: {
+                                Text("Add Movement")
+                                    .padding(.vertical)
+                            })
+                    }
                 }
-                Divider()
-                VStack(spacing: 0){
+                VStack{
                     if addWorkoutMovements.count > 0{
                         List{
                             ForEach(self.addWorkoutMovements, id: \.self) { workoutMovement in
                                 VStack{
                                     HStack{
                                         if let workoutName = workoutMovement.movementName, !workoutName.isEmpty {
-                                            Text(workoutMovement.movementName)
+                                            Text("\(workoutMovement.movementName)")
                                         }
                                         if let workoutWeight = workoutMovement.movementWeight, !workoutWeight.isEmpty {
                                             Text("@\(workoutMovement.movementWeight) Lbs")
@@ -140,24 +142,28 @@ struct WorkoutListView: View {
                                     }
                                 }.padding()
                             }.onDelete(perform: deleteMovement).padding(0)
-                        }.listStyle(InsetGroupedListStyle()).padding(0).foregroundColor(.pink)
+                        }
+                        .foregroundColor(.pink)
+                        .frame(maxHeight: 140)
+                        .animation(.easeInOut(duration: 0.5))
                     }
-                    Spacer()
+                }
+                VStack(spacing: 0){
                     HStack{
                         Spacer()
-                        Button(action: self.addNewWorkout, label: {
+                        Button(action: withAnimation{self.addNewWorkout}, label: {
                             Text("Add Workout")
-                                .padding()
+                                .padding(.bottom, 10)
                         })
                         Spacer()
                         
-                    }.frame(height: 100).background(Color.black)
+                    }.frame(height: 80).background(Color.black)
+                    
                 }
-            }.navigationBarTitle("Add Workout").accentColor(.pink)
-            .edgesIgnoringSafeArea(.all).foregroundColor(.white)
+            }.navigationBarTitle("Add Workout")
+            .accentColor(.pink)
+            .edgesIgnoringSafeArea(.all)
         }
-        
-        
     }
     func deleteMovement(at offsets: IndexSet){
         addWorkoutMovements.remove(atOffsets: offsets)
@@ -169,12 +175,9 @@ struct WorkoutListView: View {
         //movementCounter += 1
         addWorkoutMovements.append(WorkoutMovement(movementName: newMovementName, movementWeight: newMovementWeight, movementReps: newMovementReps))
         
-        newMovementName = ""
-        newMovementReps = ""
-        newMovementWeight = ""
-        newWorkoutTime = ""
-        newWorkoutRounds = ""
-        workoutPrioritySelector = 0
+        self.newMovementName = ""
+        self.newMovementReps = ""
+        self.newMovementWeight = ""
     }
     
     func addNewWorkout() {
@@ -183,29 +186,18 @@ struct WorkoutListView: View {
         workoutStore.workouts.append(
             Workout(workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription, workoutTime: newWorkoutTime, workoutRounds: newWorkoutRounds, workoutMovements: addWorkoutMovements))
         
-        let currentWorkoutWithMovements = workoutStore.workouts
-        print(currentWorkoutWithMovements)
         self.workoutStore.save()
         print("Item saved")
         self.newWorkoutTitle = ""
+        self.newWorkoutDescription = ""
         self.addWorkoutMovements = []
         self.showAddWorkoutView.toggle()
+        self.newWorkoutTime = ""
+        self.newWorkoutRounds = ""
+        self.workoutPrioritySelector = 0
     }
     
-    var AddMovementFields : some View {
-        VStack{
-            ForEach(0..<movementCounter, id: \.self) { index in
-                TextField("Movement", text: $newMovementName)
-                    .padding()
-                HStack{
-                    TextField("Weight", text: $newMovementWeight)
-                        .padding()
-                    TextField("Reps", text: $newMovementReps)
-                        .padding()
-                }
-            }
-        }
-    }
+ 
 }
 
 
