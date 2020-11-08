@@ -180,9 +180,20 @@ struct WorkoutListView: View {
                     ForEach(self.workoutStore.workouts) { workout in
                         NavigationLink(destination: WorkoutDetailView(workout: workout)) {
                             VStack(alignment: .leading){
-                                Text(workout.title)
-                                Text(workout.description)
-                                    .padding(.top, 5)
+                                if let workoutTitle = workout.title, !workoutTitle.isEmpty {
+                                    Text(workout.title)
+                                        .font(.headline)
+                                }
+                                else{
+                                    Text("Workout")
+                                }
+                                if let workoutTitle = workout.title, !workoutTitle.isEmpty {
+                                    Text(workout.description)
+                                        .padding(.top, 5)
+                                        .foregroundColor(.secondary)
+                                        .font(.body)
+                                }
+                                
                                 Text(dateFormatter.string(from: workout.date))
                                     .font(.caption)
                                     .padding(.top, 5)

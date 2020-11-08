@@ -20,45 +20,83 @@ struct WorkoutDetailView: View {
     
     
     var AddResultView : some View {
-        VStack{
-            Text("Add Result").font(.title2).fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/).foregroundColor(.white).padding(50)
-            TextField("Enter the time in seconds", text: self.$workoutTime)
-                .padding()
-            TextField("Enter the reps", text: self.$workoutReps)
-                .padding()
-            Button(action: self.addNewResult, label: {
-                Text("Add Result")
-            }).padding()
-            Spacer()
+        NavigationView{
+            VStack{
+                Form{
+                    if workout.workoutTime.isEmpty{
+                    TextField("Enter the time in seconds", text: self.$workoutTime)
+                        .padding()
+                    }
+                    else{
+                    TextField("Enter total reps completed", text: self.$workoutReps)
+                        .padding()
+                    }
+                }
+                    VStack(spacing: 0){
+                        HStack{
+                            Spacer()
+                            Button(action: self.addNewResult, label: {
+                                Text("Add Result")
+                                    .padding()
+                            })
+                            Spacer()
+                            
+                        }.frame(height: 80).background(Color.pink).foregroundColor(.white)
+                        
+                    }
+            }.navigationTitle("Add Result")
         }
     }
     
     var body: some View {
         VStack{
             VStack{
+                if let workoutTitle = workout.title, !workoutTitle.isEmpty {
                 Text(workout.title)
                     .font(.title)
                     .padding(.bottom)
+                } else {
+                    Text("Workout")
+                        .font(.title)
+                        .padding(.bottom)
+                }
+                
+                if let workoutDescription = workout.description, !workoutDescription.isEmpty {
                 Text(workout.description)
-                    .padding(.bottom)
+                    .padding(.bottom, 5)
+                    .foregroundColor(.secondary)
+                }
+                if let workoutTime = workout.workoutTime, !workoutTime.isEmpty {
+                Text("\(workout.workoutTime) Minutes")
+                    .padding(.bottom, 5)
+                }
+                if let workoutRounds = workout.workoutRounds, !workoutRounds.isEmpty {
+                Text("\(workout.workoutRounds) Rounds")
+                    .padding(.bottom, 5)
+                    
+                }
                 
                 ForEach(workout.workoutMovements, id: \.self) { workoutMovement in
                     VStack(alignment: .leading){
                         HStack{
                             if let workoutName = workoutMovement.movementName, !workoutName.isEmpty {
-                            Text(workoutMovement.movementName)
+                                Text(workoutMovement.movementName)
+                                    .foregroundColor(.secondary)
                             }
                             if let workoutWeight = workoutMovement.movementWeight, !workoutWeight.isEmpty {
-                            Text("@\(workoutMovement.movementWeight) Lbs")
+                                Text("@\(workoutMovement.movementWeight) Lbs")
+                                    .foregroundColor(.secondary)
                             }
                             if let workoutReps = workoutMovement.movementReps, !workoutReps.isEmpty {
-                            Text("for \(workoutMovement.movementReps) Reps")
+                                Text("for \(workoutMovement.movementReps) Reps")
+                                    .foregroundColor(.secondary)
                             }
-
+                            
                         }
                     }
                 }
-            }.padding(.bottom, 30)
+            }.padding(.bottom, 10)
+            Spacer()
             VStack{
                 HStack{
                     Text("Results")
@@ -72,8 +110,12 @@ struct WorkoutDetailView: View {
             
             ForEach(self.workoutStore.workoutResults) { workoutResult in
                 VStack(alignment: .leading){
+                    if let workoutTime = workoutResult.workoutTime, !workoutTime.isEmpty {
                     Text("Workout Time: \(workoutResult.workoutTime)")
+                    }
+                    if let workoutReps = workoutResult.workoutReps, !workoutReps.isEmpty {
                     Text("Workout Reps: \(workoutResult.workoutReps)")
+                }
                 }.padding()
                 
                 
@@ -84,7 +126,7 @@ struct WorkoutDetailView: View {
         HStack{
             Button(action: {self.addResultSheet.toggle()}, label: {
                 Spacer()
-                Text("Add Result")
+                Text("Add New Result")
                 Spacer()
             }).padding().frame(height: 60).background(Color.pink).foregroundColor(.white)
         }
