@@ -104,7 +104,8 @@ struct WorkoutListView: View {
         "Power clean",
         "Power snatch",
         "Pull-up (Assisted)",
-        "Pull-up Push-up",
+        "Pull-up",
+        "Push-up",
         "Push Press Shoulder press",
         "Ring dip",
         "Ring L-sit",
@@ -208,6 +209,7 @@ struct WorkoutListView: View {
     }
     
     func delete(at offsets: IndexSet){
+        //MARK: TODO: Add confirmation modal to list deletion
         workoutStore.workouts.remove(atOffsets: offsets)
         self.workoutStore.save()
     }
@@ -244,10 +246,12 @@ struct WorkoutListView: View {
                         
                         HStack{
                             TextField("Weight (lbs)", text: $newMovementWeight)
+                            Divider()
                             TextField("Reps", text: $newMovementReps)
                         }
                         HStack{
                             TextField("Distance (meters)", text: $newMovementDistance)
+                            Divider()
                             TextField("Calories", text: $newMovementCalories)
                         }
                     
@@ -257,7 +261,7 @@ struct WorkoutListView: View {
                     })
                 }
             }
-            VStack{
+                VStack(spacing: 0){
                 if addWorkoutMovements.count > 0{
                     List{
                         ForEach(self.addWorkoutMovements, id: \.self) { workoutMovement in
@@ -271,6 +275,12 @@ struct WorkoutListView: View {
                                     }
                                     if let workoutReps = workoutMovement.movementReps, !workoutReps.isEmpty {
                                         Text("for \(workoutMovement.movementReps) Reps")
+                                    }
+                                    if let workoutCalories = workoutMovement.movementCalories, !workoutCalories.isEmpty {
+                                        Text("for \(workoutMovement.movementCalories) Calories")
+                                    }
+                                    if let workoutDistance = workoutMovement.movementDistance, !workoutDistance.isEmpty {
+                                        Text("for \(workoutMovement.movementDistance) Meters")
                                     }
                                 }
                             }.padding()
@@ -290,7 +300,7 @@ struct WorkoutListView: View {
                     })
                     Spacer()
                     
-                }.frame(height: 80).background(Color.black)
+                }.frame(height: 80).background(Color.pink).foregroundColor(.white)
                 
             }
         }.navigationBarTitle("Add Workout")
@@ -312,6 +322,8 @@ func addNewMovementView() {
     //self.newMovementName = ""
     self.newMovementReps = ""
     self.newMovementWeight = ""
+    self.newMovementCalories = ""
+    self.newMovementDistance = ""
 }
 
 func addNewWorkout() {
