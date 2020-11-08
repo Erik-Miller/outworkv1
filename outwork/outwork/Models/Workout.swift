@@ -58,6 +58,8 @@ struct WorkoutMovement: Identifiable, Codable, Hashable {
     var movementName = String()
     var movementWeight = String()
     var movementReps = String()
+    var movementCalories = String()
+    var movementDistance = String()
 }
 
 // MARK: - Identifiable Implementation
@@ -127,5 +129,6 @@ extension Workout: Hashable {
 //        case timePriority, workPriority
 //    }
 //}
+
 
 
