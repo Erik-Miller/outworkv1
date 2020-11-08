@@ -24,9 +24,11 @@ struct WorkoutListView: View {
     
     @State var selectedMovement = 0
     var workoutMovements = ["Clean & Jerk", "Snatch", "Air Squats"]
-    @State var newMovementReps: String = ""
     @State var newMovementName: String = ""
     @State var newMovementWeight: String = ""
+    @State var newMovementReps: String = ""
+    @State var newMovementDistance: String = ""
+    @State var newMovementCalories: String = ""
     
     
     // MARK: - View States
@@ -110,12 +112,12 @@ struct WorkoutListView: View {
                             ForEach(0..<movementCounter, id: \.self) { index in
                                 TextField("Movement", text: $newMovementName)
                                 HStack{
-                                    TextField("Weight", text: $newMovementWeight)
+                                    TextField("Weight (in lbs)", text: $newMovementWeight)
                                     TextField("Reps", text: $newMovementReps)
                                 }
                                 HStack{
-                                    TextField("Distance", text: $newMovementReps)
-                                    TextField("Calories", text: $newMovementReps)
+                                    TextField("Distance (in meters)", text: $newMovementDistance)
+                                    TextField("Calories", text: $newMovementCalories)
                                 }
                             }
                             Button(action: addNewMovementView, label: {
@@ -157,7 +159,7 @@ struct WorkoutListView: View {
                         })
                         Spacer()
                         
-                    }.frame(height: 80).background(Color.black)
+                    }.frame(height: 80).background(Color.pink).foregroundColor(.white)
                     
                 }
             }.navigationBarTitle("Add Workout")
