@@ -47,45 +47,16 @@ extension WorkoutStore {
 
 extension WorkoutStore {
 
-    func totalTime(workoutTime: String, workoutResultTime: String) -> Int {
-        var totalResultTime: Int = Int()
-        var individualResultTime: Int = Int()
-        var totalWorkoutTime: Int = Int()
-        var individualWorkoutTime: Int = Int()
-
-        //MARK: - Calculate the time for Workouts with Time as a priority (reps as result)
-        for workout in workouts {
-            let workoutTimeComponents = workout.workoutTime.split { $0 == ":" } .map { (x) -> Int in return Int(String(x))! }
-            //print("Workout time components \(workoutTimeComponents)")
-            if workoutTimeComponents.count == 2 {
-                let workoutTimeMinutes = Int(workoutTimeComponents[0])
-                let workoutTimeSeconds = Int(workoutTimeComponents[1])
-                individualWorkoutTime = (workoutTimeMinutes * 60) + workoutTimeSeconds
-            }
-            totalWorkoutTime += individualWorkoutTime
-            //print("total workout time \(totalWorkoutTime)")
-        }
-        
-        //MARK: - Calculate the time for Workout Results with Time as result
-        for workoutResult in workoutResults {
-            let workoutResultTimeComponents = workoutResult.workoutResultTime.split { $0 == ":" } .map { (x) -> Int in return Int(String(x))! }
-            //print("Workout Result Time Components: \(workoutResultTimeComponents)")
-            if workoutResultTimeComponents.count == 2 {
-                let workoutResultTimeMinutes = Int(workoutResultTimeComponents[0])
-               // print("Workout result time in minutes: \(workoutResultTimeMinutes)")
-            let workoutResultTimeSeconds = Int(workoutResultTimeComponents[1])
-                //print("Workout result time in seconds: \(workoutResultTimeSeconds)")
-                individualResultTime = (workoutResultTimeMinutes * 60) + workoutResultTimeSeconds
-                //print("Individual result time \(individualResultTime)")
-            }
-            totalResultTime += individualResultTime
-            
-        }
-        print("Total workout time: \(totalWorkoutTime)")
-        print("Total workout results time: \(totalResultTime)")
-        let totalWorkingTime = totalResultTime + totalWorkoutTime
-        return totalWorkingTime
-        
+    func totalTime(workoutTime: String, workoutResultTime: String) -> TimeInterval {
+        return workouts
+            .filter { $0.isTimeBased }
+            .map { $0.workoutLengthSeconds }
+            .reduce(0, +)
+        +
+        workoutResults
+            .filter { $0.isTimeBased }
+            .map { $0.workoutLengthSeconds }
+            .reduce(0, +)
     }
    
 }
