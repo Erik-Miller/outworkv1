@@ -19,9 +19,9 @@ class WorkoutStore : ObservableObject {
             seed()
         }
 
-        self.workoutResults = [WorkoutResult(id: "1", workoutTime: "600", workoutReps: ""),
-                               WorkoutResult(id: "2", workoutTime: "900", workoutReps: "56"),
-                               WorkoutResult(id: "3", workoutTime: "", workoutReps: "56"),]
+        self.workoutResults = [WorkoutResult(id: "1", workoutResultTime: "10:00", workoutResultReps: ""),
+                               WorkoutResult(id: "2", workoutResultTime: "10:30", workoutResultReps: "56"),
+                               WorkoutResult(id: "3", workoutResultTime: "10:00", workoutResultReps: "56"),]
         
         self.workoutMovements = [WorkoutMovement(movementName: "Pull up", movementWeight: "", movementReps: "50"),
                                  WorkoutMovement(movementName: "Air Squat", movementWeight: "", movementReps: "50"),
@@ -37,9 +37,9 @@ class WorkoutStore : ObservableObject {
 extension WorkoutStore {
 
     func seed() {
-        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "15", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "", workoutRounds: "10", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")]),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "15", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")])]
+        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:30", workoutRounds: "10", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")])]
 
         save()
     }
@@ -47,34 +47,56 @@ extension WorkoutStore {
 
 extension WorkoutStore {
     
-    //MARK: - Create a function that shows the reps accumulate over time
-    func totalReps(workouts: [Workout]) -> String {
-//        Iterate through workouts
-//            Iterate through workout movements
-//            Convert Workout Reps to Int and Append to Rep Array
-//        Sum up Array of Reps
-//        Convert final value back to String
-      return "Reps"
+    func totalReps(workoutReps: String) -> Int {
+        var totalReps: Int = Int()
+
+        for workoutResult in workoutResults
+        {
+            totalReps += Int(workoutResult.workoutResultReps) ?? 0
+        }
+        return totalReps
     }
     
-    //MARK: - My Attempt at this
-    func totalReps2(workouts: [Workout]) -> String {
+    func totalTime(workoutTime: String, workoutResultTime: String) -> Int {
+        var totalResultTime: Int = Int()
+        var individualResultTime: Int = Int()
+        var totalWorkoutTime: Int = Int()
+        var individualWorkoutTime: Int = Int()
+
+        //MARK: - Calculate the time for Workouts with Time as a priority (reps as result)
+        for workout in workouts {
+            let workoutTimeComponents = workout.workoutTime.split { $0 == ":" } .map { (x) -> Int in return Int(String(x))! }
+            //print("Workout time components \(workoutTimeComponents)")
+            if workoutTimeComponents.count == 2 {
+                let workoutTimeMinutes = Int(workoutTimeComponents[0])
+                let workoutTimeSeconds = Int(workoutTimeComponents[1])
+                individualWorkoutTime = (workoutTimeMinutes * 60) + workoutTimeSeconds
+            }
+            totalWorkoutTime += individualWorkoutTime
+            //print("total workout time \(totalWorkoutTime)")
+        }
         
-//        var repCounts:[Int] = []
-//        let totalReps = repCounts.reduce(0, +)
-//        let totalRepString = String(totalReps)
-//
-//        for workout in workouts {
-//            for movement in workoutMovements {
-//                let repCount = Int(movement.movementReps) ?? 0
-//                repCounts.append(repCount)
-//            }
-//        }
-      return "Reps"
+        //MARK: - Calculate the time for Workout Results with Time as result
+        for workoutResult in workoutResults {
+            let workoutResultTimeComponents = workoutResult.workoutResultTime.split { $0 == ":" } .map { (x) -> Int in return Int(String(x))! }
+            //print("Workout Result Time Components: \(workoutResultTimeComponents)")
+            if workoutResultTimeComponents.count == 2 {
+                let workoutResultTimeMinutes = Int(workoutResultTimeComponents[0])
+               // print("Workout result time in minutes: \(workoutResultTimeMinutes)")
+            let workoutResultTimeSeconds = Int(workoutResultTimeComponents[1])
+                //print("Workout result time in seconds: \(workoutResultTimeSeconds)")
+                individualResultTime = (workoutResultTimeMinutes * 60) + workoutResultTimeSeconds
+                //print("Individual result time \(individualResultTime)")
+            }
+            totalResultTime += individualResultTime
+            
+        }
+        print("Total workout time: \(totalWorkoutTime)")
+        print("Total workout results time: \(totalResultTime)")
+        let totalWorkingTime = totalResultTime + totalWorkoutTime
+        return totalWorkingTime
+        
     }
     
-    func weeklyReps(workouts: [Workout]) -> String {
-     
-        return "Reps"
-    }
+   
 }

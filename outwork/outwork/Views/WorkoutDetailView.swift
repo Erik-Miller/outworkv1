@@ -110,11 +110,11 @@ struct WorkoutDetailView: View {
             
             ForEach(self.workoutStore.workoutResults) { workoutResult in
                 VStack(alignment: .leading){
-                    if let workoutTime = workoutResult.workoutTime, !workoutTime.isEmpty {
-                    Text("Workout Time: \(workoutResult.workoutTime)")
+                    if let workoutTime = workoutResult.workoutResultTime, !workoutTime.isEmpty {
+                    Text("Workout Time: \(workoutResult.workoutResultTime)")
                     }
-                    if let workoutReps = workoutResult.workoutReps, !workoutReps.isEmpty {
-                    Text("Workout Reps: \(workoutResult.workoutReps)")
+                    if let workoutReps = workoutResult.workoutResultReps, !workoutReps.isEmpty {
+                    Text("Workout Reps: \(workoutResult.workoutResultReps)")
                 }
                 }.padding()
                 
@@ -135,7 +135,7 @@ struct WorkoutDetailView: View {
     }
     
     func addNewResult() {
-        workoutStore.workoutResults.append(WorkoutResult(id: "", workoutTime: workoutTime, workoutReps: workoutReps))
+        workoutStore.workoutResults.append(WorkoutResult(id: "", workoutResultTime: workoutTime, workoutResultReps: workoutReps))
         self.workoutStore.save()
         print("Item saved")
         self.workoutReps = ""

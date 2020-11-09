@@ -49,8 +49,8 @@ struct WorkoutList{
 
 struct WorkoutResult: Identifiable {
     var id = String()
-    var workoutTime = String()
-    var workoutReps = String()
+    var workoutResultTime = String()
+    var workoutResultReps = String()
 }
 
 struct WorkoutMovement: Identifiable, Codable, Hashable {
@@ -87,6 +87,7 @@ extension Workout: Hashable {
     // all properties on the struct are also Hashable
     // complient.
 }
+
 
 // Example Workout
 

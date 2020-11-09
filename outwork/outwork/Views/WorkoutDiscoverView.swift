@@ -8,8 +8,24 @@
 import SwiftUI
 
 struct WorkoutDiscoverView: View {
-        var workouts = WorkoutStore()
-        
+    @ObservedObject var workoutStore = WorkoutStore()
+    @State var workout = Workout.mockWorkout
+    var workoutResult = WorkoutResult()
+    
+    
+//    var totalReps: Int {
+//            for workoutReps in workoutStore.workoutResults {
+//            let workoutRepsAsInt = Int("\(workoutReps)") ?? 0
+//            var repCountArray:[Int] = []
+//                repCountArray.append(workoutRepsAsInt)
+//            let total = repCountArray.reduce(0, +)
+//            return total
+//        }
+//    }
+    
+    
+
+    
         var body: some View {
             NavigationView {
                 VStack {
@@ -19,19 +35,27 @@ struct WorkoutDiscoverView: View {
                         ScrollView(.horizontal, showsIndicators: false){
                             HStack{
                             ForEach(0...5, id: \.self) { index in
-                                VStack{
-                                    Text("Workout Name")
-                                    HStack{
-                                        Spacer()
-                                        Button("Add Workout", action: {})
-                                        .padding(.top)
-                                            .font(.caption)
-                                        .foregroundColor(.white)
-                                    }
-                                }.padding().background(Color.pink).cornerRadius(20)
-                                Spacer()
-                            }
-                            }.padding()
+                                Button(action: {}, label: {
+                                        VStack(alignment: .leading){
+                                            Text("\(workoutStore.totalReps(workoutReps: workoutResult.workoutResultReps))")
+                                                .padding(.bottom, 10)
+                                                .font(.title3)
+                                            Text("\(workoutStore.totalTime(workoutTime: workout.workoutTime, workoutResultTime: workoutResult.workoutResultTime)) seconds")
+                                                .padding(.bottom, 10)
+                                                .font(.caption)
+                                                .foregroundColor(.secondary)
+                                            HStack{
+                                                Spacer()
+                                            Text("Add Workout")
+                                                .font(.caption)
+                                            }
+                                        }.frame(minWidth: 100)
+                                        .padding()
+                                        .background(Color.primary.opacity(0.2))
+                                        .cornerRadius(20)
+                                })
+                            }.padding(.horizontal, 8)
+                            }.padding(EdgeInsets(top: 10, leading: 12, bottom: 20, trailing: 12))
                             
                         }
                     }
