@@ -40,7 +40,7 @@ struct WorkoutDiscoverView: View {
                                             Text("\(workoutStore.totalReps(workoutReps: workoutResult.workoutResultReps))")
                                                 .padding(.bottom, 10)
                                                 .font(.title3)
-                                            Text("\(workoutStore.totalTime(workoutTime: workout.workoutTime, workoutResultTime: workoutResult.workoutResultTime)) seconds")
+                                            Text("Workout Description")
                                                 .padding(.bottom, 10)
                                                 .font(.caption)
                                                 .foregroundColor(.secondary)
@@ -51,27 +51,27 @@ struct WorkoutDiscoverView: View {
                                             }
                                         }.frame(minWidth: 100)
                                         .padding()
-                                        .background(Color.primary.opacity(0.2))
                                         .cornerRadius(20)
+                                        .overlay(
+                                                RoundedRectangle(cornerRadius: 16)
+                                                    .stroke(Color.pink, lineWidth: 2)
+                                            )
                                 })
-                            }.padding(.horizontal, 8)
+                            }.padding(.horizontal, 8).foregroundColor(.pink)
                             }.padding(EdgeInsets(top: 10, leading: 12, bottom: 20, trailing: 12))
                             
                         }
                     }
-                    VStack(alignment: .leading) {
-                        HStack{
-                            
+                    Divider()
                             VStack(alignment: .leading){
-                                Text("THIS WEEK'S ACTIVITY")
-                                    
-                                    .font(.caption)
+                                Text("This Week's Activity")
                                 
                                 HStack {
-                                    Text("5.6 Hours")
+                                    Text("\(workoutStore.totalTime(workoutTime: workout.workoutTime, workoutResultTime: workoutResult.workoutResultTime)) hours")
                                         .font(.title)
                                         .fontWeight(.bold)
-                                    Label("0.3 hours", systemImage: "arrow.up")
+                                    Spacer()
+                                    Label("0:30 hours", systemImage: "arrow.up")
                                         .padding(10)
                                         .font(.caption)
                                         .background(Capsule().fill(Color.pink))
@@ -79,11 +79,8 @@ struct WorkoutDiscoverView: View {
                                     
                                 }.padding(.top)
                             }.padding()
-                            Spacer()
-                        }
-                        Spacer()
-                    }.frame(maxHeight: 100).padding().background(Color.gray)
-                    
+
+                    Divider()
                     Spacer()
                     
                     
