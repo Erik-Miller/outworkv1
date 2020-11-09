@@ -12,21 +12,7 @@ struct WorkoutDiscoverView: View {
     @State var workout = Workout.mockWorkout
     var workoutResult = WorkoutResult()
     
-    
-//    var totalReps: Int {
-//            for workoutReps in workoutStore.workoutResults {
-//            let workoutRepsAsInt = Int("\(workoutReps)") ?? 0
-//            var repCountArray:[Int] = []
-//                repCountArray.append(workoutRepsAsInt)
-//            let total = repCountArray.reduce(0, +)
-//            return total
-//        }
-//    }
-    
-    
-
-    
-        var body: some View {
+var body: some View {
             NavigationView {
                 VStack {
                     VStack(alignment: .leading){

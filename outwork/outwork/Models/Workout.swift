@@ -24,6 +24,7 @@ struct Workout {
     
     var workoutMovements = [WorkoutMovement]()
     
+    
     init(
         workoutTitle: String,
         workoutDescription: String,
