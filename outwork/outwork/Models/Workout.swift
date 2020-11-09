@@ -82,14 +82,7 @@ struct WorkoutList {
     var workoutList:[Workout: [WorkoutResult]]
 }
 
-struct WorkoutMovement: Identifiable, Codable, Hashable {
-    var id = String()
-    var movementName = String()
-    var movementWeight = String()
-    var movementReps = String()
-    var movementCalories = String()
-    var movementDistance = String()
-}
+
 
 // MARK: - Identifiable Implementation
 
@@ -116,49 +109,4 @@ extension Workout: Hashable {
     // all properties on the struct are also Hashable
     // complient.
 }
-
-
-// Example Workout
-
-//Workout for Time
-
-//For time:
-//
-//1,500-meter row
-//Then, 5 rounds of:
-//10 bar muscle-ups
-//7 push jerks
-//
-//♀ 145 lb. ♂ 235 lb.
-
-//Example Results
-//Time in seconds (or time in minutes and seconds such as 3:35)
-
-
-//Example Workout
-
-//Workout for Reps/Rounds
-
-//Complete as many rounds as possible in 7 minutes of:
-//
-//50 double-unders
-//10 overhead squats
-//
-//♀ 95 lb. ♂135 lb.
-
-//Example Results
-//Total Reps
-
-
-
-
-
-
-//MARK: TODO - Figure out how to present two different types of workout forms
-//    enum WorkoutType: String {
-//        case timePriority, workPriority
-//    }
-//}
-
-
 
