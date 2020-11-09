@@ -19,9 +19,9 @@ class WorkoutStore : ObservableObject {
             seed()
         }
 
-        self.workoutResults = [WorkoutResult(id: "1", workoutResultTime: "10:00", workoutResultReps: ""),
-                               WorkoutResult(id: "2", workoutResultTime: "10:30", workoutResultReps: "56"),
-                               WorkoutResult(id: "3", workoutResultTime: "10:00", workoutResultReps: "56"),]
+        self.workoutResults = [WorkoutResult(id: "1", workoutResultTime: "10:00", workoutResultReps: "", workoutRating: true, workoutResultNotes: "Super tired today"),
+                               WorkoutResult(id: "2", workoutResultTime: "", workoutResultReps: "50", workoutRating: true, workoutResultNotes: "This is a super long set of notes from a workout that will test the limits of a row view"),
+                               WorkoutResult(id: "3", workoutResultTime: "10:00", workoutResultReps: "", workoutRating: true, workoutResultNotes: ""),]
         
         self.workoutMovements = [WorkoutMovement(movementName: "Pull up", movementWeight: "", movementReps: "50"),
                                  WorkoutMovement(movementName: "Air Squat", movementWeight: "", movementReps: "50"),

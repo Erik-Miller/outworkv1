@@ -51,6 +51,8 @@ struct WorkoutResult: Identifiable {
     var id = String()
     var workoutResultTime = String()
     var workoutResultReps = String()
+    var workoutRating: Bool = true
+    var workoutResultNotes: String = String()
 }
 
 struct WorkoutMovement: Identifiable, Codable, Hashable {

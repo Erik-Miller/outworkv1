@@ -16,34 +16,49 @@ struct WorkoutDetailView: View {
     
     @State var workoutTime = ""
     @State var workoutReps = ""
-    
-    
+    @State var workoutResultRating = true
+    @State var workoutResultNotes = ""
     
     var AddResultView : some View {
         NavigationView{
             VStack{
                 Form{
-                    if workout.workoutTime.isEmpty{
-                    TextField("Enter the time in seconds", text: self.$workoutTime)
-                        .padding()
+                    Section(header: Text("Enter Your Score")){
+                        if workout.workoutTime.isEmpty{
+                            TextField("Enter the time in seconds", text: self.$workoutTime)
+                                .padding()
+                        }
+                        else{
+                            TextField("Enter total reps completed", text: self.$workoutReps)
+                                .padding()
+                        }
                     }
-                    else{
-                    TextField("Enter total reps completed", text: self.$workoutReps)
-                        .padding()
-                    }
-                }
-                    VStack(spacing: 0){
+                    Section(header: Text("Rate Your Workout performance")){
                         HStack{
-                            Spacer()
-                            Button(action: self.addNewResult, label: {
-                                Text("Add Result")
-                                    .padding()
-                            })
-                            Spacer()
-                            
-                        }.frame(height: 80).background(Color.pink).foregroundColor(.white)
-                        
+                            Picker(selection: $workoutResultRating, label: Text("")) {
+                                Image(systemName: "hand.thumbsup").tag(true)
+                                Image(systemName: "hand.thumbsdown").tag(false)
+                            }.pickerStyle(SegmentedPickerStyle())
+                        }.padding()
+                        VStack{
+                            TextField("Enter workout notes", text: $workoutResultNotes)
+                                .padding(.vertical)
+                        }
                     }
+                }.padding(.top)
+                
+                VStack(spacing: 0){
+                    HStack{
+                        Spacer()
+                        Button(action: self.addNewResult, label: {
+                            Text("Add Result")
+                                .padding()
+                        })
+                        Spacer()
+                        
+                    }.frame(height: 80).background(Color.pink).foregroundColor(.white)
+                    
+                }
             }.navigationTitle("Add Result")
         }
     }
@@ -52,9 +67,9 @@ struct WorkoutDetailView: View {
         VStack{
             VStack{
                 if let workoutTitle = workout.title, !workoutTitle.isEmpty {
-                Text(workout.title)
-                    .font(.title)
-                    .padding(.bottom)
+                    Text(workout.title)
+                        .font(.title)
+                        .padding(.bottom)
                 } else {
                     Text("Workout")
                         .font(.title)
@@ -62,17 +77,17 @@ struct WorkoutDetailView: View {
                 }
                 
                 if let workoutDescription = workout.description, !workoutDescription.isEmpty {
-                Text(workout.description)
-                    .padding(.bottom, 5)
-                    .foregroundColor(.secondary)
+                    Text(workout.description)
+                        .padding(.bottom, 5)
+                        .foregroundColor(.secondary)
                 }
                 if let workoutTime = workout.workoutTime, !workoutTime.isEmpty {
-                Text("\(workout.workoutTime) Minutes")
-                    .padding(.bottom, 5)
+                    Text("\(workout.workoutTime) Minutes")
+                        .padding(.bottom, 5)
                 }
                 if let workoutRounds = workout.workoutRounds, !workoutRounds.isEmpty {
-                Text("\(workout.workoutRounds) Rounds")
-                    .padding(.bottom, 5)
+                    Text("\(workout.workoutRounds) Rounds")
+                        .padding(.bottom, 5)
                     
                 }
                 
@@ -96,6 +111,8 @@ struct WorkoutDetailView: View {
                     }
                 }
             }.padding(.bottom, 10)
+            
+            //MARK: - Result List
             Spacer()
             VStack{
                 HStack{
@@ -109,13 +126,37 @@ struct WorkoutDetailView: View {
         List{
             
             ForEach(self.workoutStore.workoutResults) { workoutResult in
-                VStack(alignment: .leading){
-                    if let workoutTime = workoutResult.workoutResultTime, !workoutTime.isEmpty {
-                    Text("Workout Time: \(workoutResult.workoutResultTime)")
+                HStack{
+                    VStack(alignment: .leading){
+                            if let workoutTime = workoutResult.workoutResultTime, !workoutTime.isEmpty {
+                                Text("Time: \(workoutResult.workoutResultTime)")
+                                    .font(.headline)
+                            }
+                            if let workoutReps = workoutResult.workoutResultReps, !workoutReps.isEmpty {
+                                Text("Reps: \(workoutResult.workoutResultReps)")
+                                    .font(.headline)
+                            }
+                            if let workoutResultNotes = workoutResult.workoutResultNotes, !workoutResultNotes.isEmpty {
+                                Text(workoutResult.workoutResultNotes)
+                                    .padding(.top, 5)
+                                    .foregroundColor(.secondary)
+                                    .font(.body)
+                            }
                     }
-                    if let workoutReps = workoutResult.workoutResultReps, !workoutReps.isEmpty {
-                    Text("Workout Reps: \(workoutResult.workoutResultReps)")
-                }
+                        Spacer()
+                    VStack{
+                        if let workoutRating = workoutResult.workoutRating, workoutRating == true {
+                            Image(systemName: "hand.thumbsup")
+                        }
+                        else {
+                            Image(systemName: "hand.thumbsdown")
+                                
+                        }
+                        Text("Rating")
+                            .font(.caption)
+                            .padding(.top, 5)
+                            
+                    }.padding()
                 }.padding()
                 
                 
@@ -135,7 +176,7 @@ struct WorkoutDetailView: View {
     }
     
     func addNewResult() {
-        workoutStore.workoutResults.append(WorkoutResult(id: "", workoutResultTime: workoutTime, workoutResultReps: workoutReps))
+        workoutStore.workoutResults.append(WorkoutResult(id: "", workoutResultTime: workoutTime, workoutResultReps: workoutReps, workoutRating: workoutResultRating, workoutResultNotes: workoutResultNotes))
         self.workoutStore.save()
         print("Item saved")
         self.workoutReps = ""
