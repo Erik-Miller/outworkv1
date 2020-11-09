@@ -82,8 +82,6 @@ struct WorkoutDiscoverView: View {
 
                     Divider()
                     VStack(alignment: .leading){
-                      
-                        
                         HStack {
                             Text("\(workoutStore.totalReps(workoutReps: workoutResult.workoutResultReps)) reps")
                                 .font(.title)
@@ -95,12 +93,10 @@ struct WorkoutDiscoverView: View {
                                 .background(Capsule().fill(Color.pink))
                                 .frame(maxWidth: 150)
                             
-                        }.padding(.top)
+                        }
                     }.padding()
                     Divider()
                     Spacer()
-                    
-                    
                 }.padding(.top).navigationTitle("Discover")
             }
         }

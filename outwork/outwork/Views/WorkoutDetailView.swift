@@ -112,50 +112,53 @@ struct WorkoutDetailView: View {
                 }
             }.padding(.bottom, 10)
             
+            
             //MARK: - Result List
             Spacer()
+            Divider()
             VStack{
                 HStack{
                     Text("Results")
-                        .font(.title2)
-                        .padding()
+                        .font(.title3)
+                        .padding(.horizontal)
                     Spacer()
                 }
-            }.padding().frame(height: 50)
+            }.padding()
+            Divider()
         }
         List{
             
             ForEach(self.workoutStore.workoutResults) { workoutResult in
                 HStack{
                     VStack(alignment: .leading){
-                            if let workoutTime = workoutResult.workoutResultTime, !workoutTime.isEmpty {
-                                Text("Time: \(workoutResult.workoutResultTime)")
-                                    .font(.headline)
-                            }
-                            if let workoutReps = workoutResult.workoutResultReps, !workoutReps.isEmpty {
-                                Text("Reps: \(workoutResult.workoutResultReps)")
-                                    .font(.headline)
-                            }
-                            if let workoutResultNotes = workoutResult.workoutResultNotes, !workoutResultNotes.isEmpty {
-                                Text(workoutResult.workoutResultNotes)
-                                    .padding(.top, 5)
-                                    .foregroundColor(.secondary)
-                                    .font(.body)
-                            }
+                        if let workoutTime = workoutResult.workoutResultTime, !workoutTime.isEmpty {
+                            Text("Time: \(workoutResult.workoutResultTime)")
+                                .font(.headline)
+                        }
+                        if let workoutReps = workoutResult.workoutResultReps, !workoutReps.isEmpty {
+                            Text("Reps: \(workoutResult.workoutResultReps)")
+                                .font(.headline)
+                        }
+                        if let workoutResultNotes = workoutResult.workoutResultNotes, !workoutResultNotes.isEmpty {
+                            Text(workoutResult.workoutResultNotes)
+                                .padding(.top, 5)
+                                .foregroundColor(.secondary)
+                                .font(.body)
+                        }
                     }
-                        Spacer()
+                    Spacer()
                     VStack{
                         if let workoutRating = workoutResult.workoutRating, workoutRating == true {
                             Image(systemName: "hand.thumbsup")
                         }
                         else {
                             Image(systemName: "hand.thumbsdown")
-                                
+                            
                         }
                         Text("Rating")
                             .font(.caption)
                             .padding(.top, 5)
-                            
+                        
                     }.padding()
                 }.padding()
                 

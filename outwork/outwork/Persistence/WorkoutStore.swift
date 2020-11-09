@@ -97,6 +97,5 @@ extension WorkoutStore {
         return totalWorkingTime
         
     }
-    
    
 }
