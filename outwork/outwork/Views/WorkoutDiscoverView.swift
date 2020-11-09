@@ -37,7 +37,7 @@ struct WorkoutDiscoverView: View {
                             ForEach(0...5, id: \.self) { index in
                                 Button(action: {}, label: {
                                         VStack(alignment: .leading){
-                                            Text("\(workoutStore.totalReps(workoutReps: workoutResult.workoutResultReps))")
+                                            Text("Title")
                                                 .padding(.bottom, 10)
                                                 .font(.title3)
                                             Text("Workout Description")
@@ -80,6 +80,23 @@ struct WorkoutDiscoverView: View {
                                 }.padding(.top)
                             }.padding()
 
+                    Divider()
+                    VStack(alignment: .leading){
+                      
+                        
+                        HStack {
+                            Text("\(workoutStore.totalReps(workoutReps: workoutResult.workoutResultReps)) reps")
+                                .font(.title)
+                                .fontWeight(.bold)
+                            Spacer()
+                            Label("50 reps", systemImage: "arrow.up")
+                                .padding(10)
+                                .font(.caption)
+                                .background(Capsule().fill(Color.pink))
+                                .frame(maxWidth: 150)
+                            
+                        }.padding(.top)
+                    }.padding()
                     Divider()
                     Spacer()
                     
