@@ -67,7 +67,7 @@ struct WorkoutDiscoverView: View {
                                 Text("This Week's Activity")
                                 
                                 HStack {
-                                    Text("\(workoutStore.totalTime(workoutTime: workout.workoutTime, workoutResultTime: workoutResult.workoutResultTime)) hours")
+                                    Text("\(workoutStore.formattedTotalTime()) hours")
                                         .font(.title)
                                         .fontWeight(.bold)
                                     Spacer()
