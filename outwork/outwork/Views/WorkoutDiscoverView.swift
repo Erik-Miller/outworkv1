@@ -83,7 +83,7 @@ struct WorkoutDiscoverView: View {
                     Divider()
                     VStack(alignment: .leading){
                         HStack {
-                            Text("\(workoutStore.totalReps(workoutReps: workoutResult.workoutResultReps)) reps")
+                            Text("\(workoutStore.workoutResults.totalReps(workoutReps: workoutResult.workoutResultReps)) reps")
                                 .font(.title)
                                 .fontWeight(.bold)
                             Spacer()

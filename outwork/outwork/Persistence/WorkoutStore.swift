@@ -46,17 +46,7 @@ extension WorkoutStore {
 }
 
 extension WorkoutStore {
-    
-    func totalReps(workoutReps: String) -> Int {
-        var totalReps: Int = Int()
 
-        for workoutResult in workoutResults
-        {
-            totalReps += Int(workoutResult.workoutResultReps) ?? 0
-        }
-        return totalReps
-    }
-    
     func totalTime(workoutTime: String, workoutResultTime: String) -> Int {
         var totalResultTime: Int = Int()
         var individualResultTime: Int = Int()
