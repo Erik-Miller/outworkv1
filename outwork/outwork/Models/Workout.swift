@@ -8,17 +8,18 @@
 import Foundation
 import Combine
 
+struct WorkoutList {
+    var workoutList:[Workout: [WorkoutResult]]
+}
+
 struct Workout {
     // The title of the workout
     var title: String
-    
     // The description of the workout
     var description: String
-    
     // The date and time the workout was completed.
     // This will be used to uniquely identify workouts.
     var date: Date
-    
     var workoutTime: String
     var workoutRounds: String
     
@@ -78,11 +79,6 @@ extension Workout {
         return totalSeconds
     }
 }
-
-struct WorkoutList {
-    var workoutList:[Workout: [WorkoutResult]]
-}
-
 
 
 // MARK: - Identifiable Implementation
