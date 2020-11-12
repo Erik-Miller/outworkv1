@@ -66,9 +66,9 @@
 		151E33CA254B944C00A13064 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				DC60E4C02546185500A17DA0 /* Workout.swift */,
 				158518A625597FFD00B0DC4E /* Array+Workout.swift */,
 				158518A92559800D00B0DC4E /* Array+WorkoutResult.swift */,
+				DC60E4C02546185500A17DA0 /* Workout.swift */,
 				158518AD2559854B00B0DC4E /* WorkoutResult.swift */,
 				158518B02559855500B0DC4E /* WorkoutMovement.swift */,
 			);

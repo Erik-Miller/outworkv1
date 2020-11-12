@@ -29,8 +29,7 @@ class WorkoutStore : ObservableObject {
     }
 
     func save() {
-        DataStore.writeDataToDisk(data: workouts
-        )
+        DataStore.writeDataToDisk(data: workouts)
     }
 
 }

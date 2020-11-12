@@ -12,7 +12,7 @@ struct WorkoutDiscoverView: View {
     @State var workout = Workout.mockWorkout
     var workoutResult = WorkoutResult()
     
-var body: some View {
+var body: some View { 
             NavigationView {
                 VStack {
                     VStack(alignment: .leading){
