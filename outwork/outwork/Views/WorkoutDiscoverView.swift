@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WorkoutDiscoverView: View {
     @ObservedObject var workoutStore = WorkoutStore()
-    @State var workout = Workout.mockWorkout
+    @State var workoutItemVM = Workout.mockWorkout
     var workoutResult = WorkoutResult()
     
 var body: some View { 

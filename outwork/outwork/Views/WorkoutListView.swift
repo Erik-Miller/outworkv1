@@ -9,8 +9,11 @@ import SwiftUI
 import Combine
 
 struct WorkoutListView: View {
-    @StateObject var workoutStore = WorkoutStore()
-    @State var workout = Workout.mockWorkout
+    @ObservedObject var workoutListVM = WorkoutListViewModel()
+    @ObservedObject var workoutStore = WorkoutStore()
+    //@State var workout = Workout.mockWorkout
+    
+    let workouts = TestDataWorkouts
     
     var workoutMovements = [
         "Air Squat",
@@ -166,40 +169,16 @@ struct WorkoutListView: View {
     @State private var movementCounter = 1
     @State var addWorkoutMovements: [WorkoutMovement] = []
     
-    //MARK: Date Formatting
-    var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter
-    }
+    
     
     //MARK: Main Workout List View
     var body: some View {
         NavigationView {
             VStack{
                 List{
-                    ForEach(self.workoutStore.workouts) { workout in
-                        NavigationLink(destination: WorkoutDetailView(workout: workout)) {
-                            VStack(alignment: .leading){
-                                if let workoutTitle = workout.title, !workoutTitle.isEmpty {
-                                    Text(workout.title)
-                                        .font(.headline)
-                                }
-                                else{
-                                    Text("Workout")
-                                }
-                                if let workoutTitle = workout.title, !workoutTitle.isEmpty {
-                                    Text(workout.description)
-                                        .padding(.top, 5)
-                                        .foregroundColor(.secondary)
-                                        .font(.body)
-                                }
-                                
-                                Text(dateFormatter.string(from: workout.date))
-                                    .font(.caption)
-                                    .padding(.top, 5)
-                            }.padding()
+                    ForEach(workoutListVM.workoutItemViewModels) { workoutItemVM in
+                        NavigationLink(destination: WorkoutDetailView()) {
+                            WorkoutItem(workoutItemVM: workoutItemVM)
                         }
                     }.onMove(perform: self.move)
                     .onDelete(perform: self.delete)
@@ -367,3 +346,37 @@ struct WorkoutListView_Previews: PreviewProvider {
 }
 
 
+
+struct WorkoutItem: View {
+    @ObservedObject var workoutItemVM: WorkoutItemViewModel
+    
+    //MARK: Date Formatting
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading){
+            if let workoutTitle = workoutItemVM.workout.title, !workoutTitle.isEmpty {
+                Text(workoutItemVM.workout.title)
+                    .font(.headline)
+            }
+            else{
+                Text("Workout")
+            }
+            if let workoutTitle = workoutItemVM.workout.title, !workoutTitle.isEmpty {
+                Text(workoutItemVM.workout.description)
+                    .padding(.top, 5)
+                    .foregroundColor(.secondary)
+                    .font(.body)
+            }
+            
+            Text(dateFormatter.string(from: workoutItemVM.workout.date))
+                .font(.caption)
+                .padding(.top, 5)
+        }.padding()
+    }
+}

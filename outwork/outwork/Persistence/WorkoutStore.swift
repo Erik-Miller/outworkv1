@@ -13,9 +13,6 @@ class WorkoutStore : ObservableObject {
     init(){
 
         self.workouts = DataStore.readDataFromDisk()
-        if workouts.isEmpty {
-            seed()
-        }
     }
 
     func save() {
@@ -24,16 +21,6 @@ class WorkoutStore : ObservableObject {
 
 }
 
-extension WorkoutStore {
-
-    func seed() {
-        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:30", workoutRounds: "10", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")]),
-                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")], workoutResults: [WorkoutResult(id: "", workoutResultTime: "", workoutResultReps: "300", workoutRating: true, workoutResultNotes: "Tough workout")])]
-
-        save()
-    }
-}
 
 extension WorkoutStore {
 
