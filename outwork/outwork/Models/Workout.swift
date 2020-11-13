@@ -24,6 +24,8 @@ struct Workout {
     var workoutRounds: String
     
     var workoutMovements = [WorkoutMovement]()
+    
+    var workoutResults = [WorkoutResult]()
 
     init(
         workoutTitle: String,
@@ -31,7 +33,8 @@ struct Workout {
         completionDate: Date = Date(),
         workoutTime: String,
         workoutRounds: String,
-        workoutMovements: [WorkoutMovement]
+        workoutMovements: [WorkoutMovement],
+        workoutResults: [WorkoutResult] = []
        
     ) {
         self.title = workoutTitle
@@ -40,6 +43,7 @@ struct Workout {
         self.workoutTime = workoutTime
         self.workoutRounds = workoutRounds
         self.workoutMovements = workoutMovements
+        self.workoutResults = workoutResults
         
     }
 }

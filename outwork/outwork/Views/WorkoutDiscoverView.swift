@@ -69,7 +69,7 @@ var body: some View {
                     Divider()
                     VStack(alignment: .leading){
                         HStack {
-                            Text("\(workoutStore.workoutResults.totalReps(workoutReps: workoutResult.workoutResultReps)) reps")
+                            Text("100 reps")
                                 .font(.title)
                                 .fontWeight(.bold)
                             Spacer()
