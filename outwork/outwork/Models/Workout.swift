@@ -8,10 +8,6 @@
 import Foundation
 import Combine
 
-struct WorkoutList {
-    var workoutList:[Workout: [WorkoutResult]]
-}
-
 struct Workout {
     // The title of the workout
     var title: String

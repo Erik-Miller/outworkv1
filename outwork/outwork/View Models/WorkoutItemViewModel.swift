@@ -15,4 +15,5 @@ class WorkoutItemViewModel: ObservableObject, Identifiable {
     init(workout: Workout) {
         self.workout = workout
     }
+    
 }

@@ -11,9 +11,8 @@ import Combine
 struct WorkoutListView: View {
     @ObservedObject var workoutListVM = WorkoutListViewModel()
     @ObservedObject var workoutStore = WorkoutStore()
-    //@State var workout = Workout.mockWorkout
-    
-    let workouts = TestDataWorkouts
+    var workout = Workout.mockWorkout
+
     
     var workoutMovements = [
         "Air Squat",
@@ -177,9 +176,12 @@ struct WorkoutListView: View {
             VStack{
                 List{
                     ForEach(workoutListVM.workoutItemViewModels) { workoutItemVM in
-                        NavigationLink(destination: WorkoutDetailView()) {
-                            WorkoutItem(workoutItemVM: workoutItemVM)
-                        }
+                        
+                        NavigationLink(
+                            destination: WorkoutDetailView(workout: workout),
+                            label: {
+                                WorkoutItem(workoutItemVM: workoutItemVM)
+                            })
                     }.onMove(perform: self.move)
                     .onDelete(perform: self.delete)
                 }.listStyle(GroupedListStyle())
