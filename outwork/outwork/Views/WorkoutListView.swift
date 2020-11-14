@@ -9,8 +9,16 @@ import SwiftUI
 import Combine
 
 struct WorkoutListView: View {
+<<<<<<< Updated upstream
     @StateObject var workoutStore = WorkoutStore()
     @State var workout = Workout.mockWorkout
+=======
+    @ObservedObject var workoutListVM = WorkoutListViewModel()
+    @ObservedObject var workoutItemVM = WorkoutItemViewModel(workout: workoutListVM)
+    @ObservedObject var workoutStore = WorkoutStore()
+    var workout = Workout.mockWorkout
+
+>>>>>>> Stashed changes
     
     var workoutMovements = [
         "Air Squat",
