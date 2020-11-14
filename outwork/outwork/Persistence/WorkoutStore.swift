@@ -9,8 +9,9 @@ import Foundation
 
 class WorkoutStore : ObservableObject {
     @Published var workouts = [Workout]()
-    @Published var workoutResults = [WorkoutResult]()
-    @Published var workoutMovements = [WorkoutMovement]()
+    //MARK: - Removed these because they are a part of the workout model
+    //@Published var workoutResults = [WorkoutResult]()
+    //@Published var workoutMovements = [WorkoutMovement]()
 
     init(){
 
@@ -23,7 +24,6 @@ class WorkoutStore : ObservableObject {
     func save() {
         DataStore.writeDataToDisk(data: workouts)
     }
-
 }
 
 extension WorkoutStore {
@@ -52,10 +52,11 @@ extension WorkoutStore {
             .filter { $0.isTimeBased }
             .map { $0.workoutLengthSeconds }
             .reduce(0, +)
-        +
-        workoutResults
-            .filter { $0.isTimeBased }
-            .map { $0.workoutLengthSeconds }
-            .reduce(0, +)
+        // MARK: - Removing Published WorkoutResults above causes error here
+//        +
+//        workoutResults
+//            .filter { $0.isTimeBased }
+//            .map { $0.workoutLengthSeconds }
+//            .reduce(0, +)
     }
 }
