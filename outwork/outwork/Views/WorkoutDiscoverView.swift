@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WorkoutDiscoverView: View {
     @ObservedObject var workoutStore = WorkoutStore()
-    @State var workoutItemVM = Workout.mockWorkout
+    @State var workout = Workout.mockWorkout
     var workoutResult = WorkoutResult()
     
 var body: some View { 
@@ -69,7 +69,7 @@ var body: some View {
                     Divider()
                     VStack(alignment: .leading){
                         HStack {
-                            Text("100 reps")
+                            Text("\(workoutStore.workoutResults.totalReps(workoutReps: workoutResult.workoutResultReps)) reps")
                                 .font(.title)
                                 .fontWeight(.bold)
                             Spacer()

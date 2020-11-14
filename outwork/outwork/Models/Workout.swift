@@ -8,6 +8,10 @@
 import Foundation
 import Combine
 
+struct WorkoutList {
+    var workoutList:[Workout: [WorkoutResult]]
+}
+
 struct Workout {
     // The title of the workout
     var title: String
@@ -20,8 +24,6 @@ struct Workout {
     var workoutRounds: String
     
     var workoutMovements = [WorkoutMovement]()
-    
-    var workoutResults = [WorkoutResult]()
 
     init(
         workoutTitle: String,
@@ -29,8 +31,7 @@ struct Workout {
         completionDate: Date = Date(),
         workoutTime: String,
         workoutRounds: String,
-        workoutMovements: [WorkoutMovement],
-        workoutResults: [WorkoutResult] = []
+        workoutMovements: [WorkoutMovement]
        
     ) {
         self.title = workoutTitle
@@ -39,7 +40,6 @@ struct Workout {
         self.workoutTime = workoutTime
         self.workoutRounds = workoutRounds
         self.workoutMovements = workoutMovements
-        self.workoutResults = workoutResults
         
     }
 }
