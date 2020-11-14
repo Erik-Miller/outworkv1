@@ -189,12 +189,12 @@ struct WorkoutDetailView: View {
     }
     
     func move(from source: IndexSet, to destination : Int){
-        self.workoutStore.workoutResults.move(fromOffsets: source, toOffset: destination)
+        self.workout.workoutResults.move(fromOffsets: source, toOffset: destination)
         self.workoutStore.save()
     }
     
     func delete(at offsets: IndexSet){
-        self.workoutStore.workoutResults.remove(atOffsets: offsets)
+        self.workout.workoutResults.remove(atOffsets: offsets)
         self.workoutStore.save()
     }
 }
