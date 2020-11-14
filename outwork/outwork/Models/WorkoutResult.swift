@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - WorkoutResult
 
-struct WorkoutResult: Identifiable, Codable {
+struct WorkoutResult: Identifiable, Codable, Hashable {
     var id = String()
     var workoutResultTime = String()
     var workoutResultReps = String()

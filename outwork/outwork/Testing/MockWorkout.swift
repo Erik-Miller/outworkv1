@@ -15,7 +15,7 @@ extension Workout {
             workoutDescription: "This is a placeholder workout description.",
             workoutTime: "",
             workoutRounds: "",
-            workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50", movementCalories: "0", movementDistance: "0")]
+            workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50", movementCalories: "0", movementDistance: "0")], workoutResults: []
         )
     }
 }

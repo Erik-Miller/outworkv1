@@ -9,8 +9,8 @@ import SwiftUI
 
 struct WorkoutDetailView: View {
     @ObservedObject var workoutStore = WorkoutStore()
-    var workout = Workout.mockWorkout
-    var workoutResult = WorkoutResult()
+    @State var workout = Workout.mockWorkout
+    //var workoutResult = WorkoutResult()
     
     @State private var addResultSheet = false
     
@@ -128,7 +128,7 @@ struct WorkoutDetailView: View {
         }
         List{
             
-            ForEach(self.workoutStore.workoutResults) { workoutResult in
+            ForEach(workout.workoutResults) { workoutResult in
                 HStack{
                     VStack(alignment: .leading){
                         if let workoutTime = workoutResult.workoutResultTime, !workoutTime.isEmpty {
@@ -179,7 +179,7 @@ struct WorkoutDetailView: View {
     }
     
     func addNewResult() {
-        workoutStore.workoutResults.append(WorkoutResult(id: "", workoutResultTime: workoutTime, workoutResultReps: workoutReps, workoutRating: workoutResultRating, workoutResultNotes: workoutResultNotes))
+        self.workout.workoutResults.append(WorkoutResult(id: "", workoutResultTime: workoutTime, workoutResultReps: workoutReps, workoutRating: workoutResultRating, workoutResultNotes: workoutResultNotes))
         self.workoutStore.save()
         print("Item saved")
         self.workoutReps = ""
@@ -189,12 +189,12 @@ struct WorkoutDetailView: View {
     }
     
     func move(from source: IndexSet, to destination : Int){
-        workoutStore.workoutResults.move(fromOffsets: source, toOffset: destination)
+        self.workoutStore.workoutResults.move(fromOffsets: source, toOffset: destination)
         self.workoutStore.save()
     }
     
     func delete(at offsets: IndexSet){
-        workoutStore.workoutResults.remove(atOffsets: offsets)
+        self.workoutStore.workoutResults.remove(atOffsets: offsets)
         self.workoutStore.save()
     }
 }
