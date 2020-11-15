@@ -18,14 +18,14 @@ class WorkoutViewModel: ObservableObject, Identifiable {
 }
 
 class WorkoutListViewModel: ObservableObject {
-    @Published var workouts: [WorkoutViewModel]
+    @Published var workouts: [Workout]
     
     
     
     init(workouts: [WorkoutViewModel]){
-        self.workouts = [WorkoutViewModel(workout: Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")])),
-                         WorkoutViewModel(workout: Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:30", workoutRounds: "10", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")])),
-                         WorkoutViewModel(workout: Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")]))]
+        self.workouts = [Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:30", workoutRounds: "10", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")]),
+                         Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")])]
     }
 }
 
