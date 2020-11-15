@@ -7,25 +7,43 @@
 
 import Foundation
 
+class WorkoutViewModel: ObservableObject, Identifiable {
+    @Published var workout: Workout
+    var id = ""
+    
+    init(workout: Workout){
+        self.workout = workout
+    }
+    
+}
+
+class WorkoutListViewModel: ObservableObject {
+    @Published var workouts: [WorkoutViewModel]
+    
+    
+    
+    init(workouts: [WorkoutViewModel]){
+        self.workouts = [WorkoutViewModel(workout: Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Thruster", movementWeight: "135", movementReps: "50")])),
+                         WorkoutViewModel(workout: Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:30", workoutRounds: "10", workoutMovements: [WorkoutMovement(id: "", movementName: "OHS", movementWeight: "95", movementReps: "50")])),
+                         WorkoutViewModel(workout: Workout(workoutTitle: "Workout Title", workoutDescription: "This is a workout description", workoutTime: "10:00", workoutRounds: "", workoutMovements: [WorkoutMovement(id: "", movementName: "Air Squat", movementWeight: "", movementReps: "50")]))]
+    }
+}
+
+
 class WorkoutStore : ObservableObject {
     @Published var workouts = [Workout]()
     //MARK: - Removed these because they are a part of the workout model
     //@Published var workoutResults = [WorkoutResult]()
     //@Published var workoutMovements = [WorkoutMovement]()
 
-    init(){
-
-        self.workouts = DataStore.readDataFromDisk()
-        if workouts.isEmpty {
-            seed()
-        }
-    }
+    
 
     func save() {
         DataStore.writeDataToDisk(data: workouts)
     }
 }
 
+// Seed workouts for now
 extension WorkoutStore {
 
     func seed() {
@@ -52,10 +70,11 @@ extension WorkoutStore {
             .filter { $0.isTimeBased }
             .map { $0.workoutLengthSeconds }
             .reduce(0, +)
-        // MARK: - Removing Published WorkoutResults above causes error here
+        
+    // Commented out as this creates an error
 //        +
-//        workoutResults
-//            .filter { $0.isTimeBased }
+//        workout
+//            .filter { $0.workoutResult.workoutRating == true }
 //            .map { $0.workoutLengthSeconds }
 //            .reduce(0, +)
     }

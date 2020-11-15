@@ -18,4 +18,6 @@ extension Array where Element == WorkoutResult {
         }
         return totalReps
     }
+    
+    
 }
