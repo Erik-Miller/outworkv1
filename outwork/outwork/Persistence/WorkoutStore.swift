@@ -18,7 +18,7 @@ class WorkoutViewModel: ObservableObject, Identifiable {
 }
 
 class WorkoutListViewModel: ObservableObject {
-    @Published var workouts: [Workout]
+    @Published var workouts = [Workout]()
     
     
     
