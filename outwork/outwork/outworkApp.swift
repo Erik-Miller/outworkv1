@@ -24,16 +24,18 @@ struct outworkApp: App {
                     }
                     .tag(1)
                 
-                WorkoutListView()
-                    .tabItem {
-                        VStack {
-                            Image(systemName: "bolt")
-                            Text("Workouts")
-                        }
+                WorkoutListView(
+                    viewModel: WorkoutListViewModel(
+                        workoutStore: WorkoutStore()
+                    )
+                )
+                .tabItem {
+                    VStack {
+                        Image(systemName: "bolt")
+                        Text("Workouts")
                     }
-                    .tag(0)
-                
-                
+                }
+                .tag(0)
             }
             .accentColor(Color.pink)
         }
