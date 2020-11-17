@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		151BE1DD25635C8E0038CDAE /* WorkoutDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151BE1DC25635C8E0038CDAE /* WorkoutDetailViewModel.swift */; };
 		151E33CE254B960B00A13064 /* WorkoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151E33CD254B960B00A13064 /* WorkoutStore.swift */; };
 		151E33D3254B98A100A13064 /* MockWorkout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151E33D2254B98A100A13064 /* MockWorkout.swift */; };
 		158518A725597FFD00B0DC4E /* Array+Workout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 158518A625597FFD00B0DC4E /* Array+Workout.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		151BE1DC25635C8E0038CDAE /* WorkoutDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutDetailViewModel.swift; sourceTree = "<group>"; };
 		151E33CD254B960B00A13064 /* WorkoutStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutStore.swift; sourceTree = "<group>"; };
 		151E33D2254B98A100A13064 /* MockWorkout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockWorkout.swift; sourceTree = "<group>"; };
 		158518A625597FFD00B0DC4E /* Array+Workout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Workout.swift"; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				159CA67C2563392300CA01D3 /* WorkoutListViewModel.swift */,
+				151BE1DC25635C8E0038CDAE /* WorkoutDetailViewModel.swift */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				DC37863625462CAD00B5E9CB /* WorkoutDetailView.swift in Sources */,
 				158518B12559855500B0DC4E /* WorkoutMovement.swift in Sources */,
 				158518AE2559854B00B0DC4E /* WorkoutResult.swift in Sources */,
+				151BE1DD25635C8E0038CDAE /* WorkoutDetailViewModel.swift in Sources */,
 				158518AA2559800D00B0DC4E /* Array+WorkoutResult.swift in Sources */,
 				15F0E2C12551940200DC9960 /* DataStore.swift in Sources */,
 				158518A725597FFD00B0DC4E /* Array+Workout.swift in Sources */,

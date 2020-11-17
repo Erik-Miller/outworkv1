@@ -28,9 +28,9 @@ class WorkoutListViewModel {
     }
 
     func setupSubscriptions() {
-        cancellableSubscription = workoutStore.$workouts.sink { [weak self] workouts in
-            self?.workoutListItems = workouts.map {
-                WorkoutListItemViewModel(workout: $0)
+        cancellableSubscription = workoutStore.$workouts.sink { [unowned self] workouts in
+            self.workoutListItems = workouts.map {
+                WorkoutListItemViewModel(workout: $0, workoutStore: self.workoutStore)
             }
         }
     }
@@ -39,9 +39,11 @@ class WorkoutListViewModel {
 // MARK: - WorkoutListItemViewModel
 
 class WorkoutListItemViewModel {
+
     let title: String
     let description: String
     let date: Date
+    let detailViewModel: WorkoutDetailViewModel
 
     var formattedDate: String {
         let dateFormatter = DateFormatter()
@@ -49,10 +51,14 @@ class WorkoutListItemViewModel {
         return dateFormatter.string(from: date)
     }
 
-    init(workout: Workout) {
+    init(workout: Workout, workoutStore: WorkoutStore) {
         self.title = workout.title
         self.description = workout.description
         self.date = workout.date
+        self.detailViewModel = WorkoutDetailViewModel(
+            workout: workout,
+            workoutStore: workoutStore
+        )
     }
 }
 
