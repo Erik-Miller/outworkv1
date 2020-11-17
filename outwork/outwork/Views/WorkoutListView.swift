@@ -184,7 +184,7 @@ struct WorkoutListView: View {
             VStack{
                 List{
                     ForEach(self.viewModel.workoutListItems) { listItem in
-                        NavigationLink(destination: WorkoutDetailView(viewModel: listItem.detailViewModel)) {
+                        //NavigationLink(destination: WorkoutDetailView(workout: workout)) {
                             VStack(alignment: .leading){
 
                                 Text(listItem.title).font(.headline)

@@ -8,26 +8,23 @@
 import SwiftUI
 
 struct WorkoutDetailView: View {
-
-    private let viewModel: WorkoutDetailViewModel
-
+    @ObservedObject var workoutStore = WorkoutStore()
+    @State var workout = Workout.mockWorkout
+    //var workoutResult = WorkoutResult()
+    
     @State private var addResultSheet = false
     
     @State var workoutTime = ""
     @State var workoutReps = ""
     @State var workoutResultRating = true
     @State var workoutResultNotes = ""
-
-    init(viewModel: WorkoutDetailViewModel) {
-        self.viewModel = viewModel
-    }
     
     var AddResultView : some View {
         NavigationView{
             VStack{
                 Form{
                     Section(header: Text("Enter Your Score")){
-                        if viewModel.workoutTime.isEmpty{
+                        if workout.workoutTime.isEmpty{
                             TextField("Enter the time in seconds", text: self.$workoutTime)
                                 .padding()
                         }
