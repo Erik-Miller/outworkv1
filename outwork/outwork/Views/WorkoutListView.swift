@@ -9,12 +9,8 @@ import SwiftUI
 import Combine
 
 struct WorkoutListView: View {
-
-    let viewModel: WorkoutListViewModel
-
-    init(viewModel: WorkoutListViewModel) {
-        self.viewModel = viewModel
-    }
+    @StateObject var workoutStore = WorkoutStore()
+    @State var workout = Workout.mockWorkout
     
     var workoutMovements = [
         "Air Squat",
@@ -183,23 +179,28 @@ struct WorkoutListView: View {
         NavigationView {
             VStack{
                 List{
-                    ForEach(self.viewModel.workoutListItems) { listItem in
-                        //NavigationLink(destination: WorkoutDetailView(workout: workout)) {
+                    ForEach(self.workoutStore.workouts) { workout in
+                        NavigationLink(destination: WorkoutDetailView(workout: workout)) {
                             VStack(alignment: .leading){
-
-                                Text(listItem.title).font(.headline)
-
-                                Text(listItem.description)
-                                    .padding(.top, 5)
-                                    .foregroundColor(.secondary)
-                                    .font(.body)
+                                if let workoutTitle = workout.title, !workoutTitle.isEmpty {
+                                    Text(workout.title)
+                                        .font(.headline)
+                                }
+                                else{
+                                    Text("Workout")
+                                }
+                                if let workoutTitle = workout.title, !workoutTitle.isEmpty {
+                                    Text(workout.description)
+                                        .padding(.top, 5)
+                                        .foregroundColor(.secondary)
+                                        .font(.body)
+                                }
                                 
-                                Text(listItem.formattedDate)
+                                Text(dateFormatter.string(from: workout.date))
                                     .font(.caption)
                                     .padding(.top, 5)
-
                             }.padding()
-                        //}
+                        }
                     }.onMove(perform: self.move)
                     .onDelete(perform: self.delete)
                 }.listStyle(GroupedListStyle())
@@ -216,14 +217,14 @@ struct WorkoutListView: View {
         })
     }
     func move(from source: IndexSet, to destination : Int){
-//        workoutStore.workouts.move(fromOffsets: source, toOffset: destination)
-//        self.workoutStore.save()
+        workoutStore.workouts.move(fromOffsets: source, toOffset: destination)
+        self.workoutStore.save()
     }
     
     func delete(at offsets: IndexSet){
-//        //MARK: TODO: Add confirmation modal to list deletion
-//        workoutStore.workouts.remove(atOffsets: offsets)
-//        self.workoutStore.save()
+        //MARK: TODO: Add confirmation modal to list deletion
+        workoutStore.workouts.remove(atOffsets: offsets)
+        self.workoutStore.save()
     }
     
     
@@ -321,8 +322,8 @@ struct WorkoutListView: View {
     }
 }
 func deleteMovement(at offsets: IndexSet){
-//    addWorkoutMovements.remove(atOffsets: offsets)
-//    self.workoutStore.save()
+    addWorkoutMovements.remove(atOffsets: offsets)
+    self.workoutStore.save()
 }
 
 //MARK: TODO: Add empty field error handling
@@ -341,18 +342,18 @@ func addNewMovementView() {
 func addNewWorkout() {
     //MARK: - TODO: If title is empty, insert date of workout
     
-//    workoutStore.workouts.append(
-//        Workout(workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription, workoutTime: newWorkoutTime, workoutRounds: newWorkoutRounds, workoutMovements: addWorkoutMovements))
-//    
-//    self.workoutStore.save()
-//    print("Item saved")
-//    self.newWorkoutTitle = ""
-//    self.newWorkoutDescription = ""
-//    self.addWorkoutMovements = []
-//    self.showAddWorkoutView.toggle()
-//    self.newWorkoutTime = ""
-//    self.newWorkoutRounds = ""
-//    self.workoutPrioritySelector = 0
+    workoutStore.workouts.append(
+        Workout(workoutTitle: newWorkoutTitle, workoutDescription: newWorkoutDescription, workoutTime: newWorkoutTime, workoutRounds: newWorkoutRounds, workoutMovements: addWorkoutMovements))
+    
+    self.workoutStore.save()
+    print("Item saved")
+    self.newWorkoutTitle = ""
+    self.newWorkoutDescription = ""
+    self.addWorkoutMovements = []
+    self.showAddWorkoutView.toggle()
+    self.newWorkoutTime = ""
+    self.newWorkoutRounds = ""
+    self.workoutPrioritySelector = 0
 }
 
 
@@ -361,9 +362,7 @@ func addNewWorkout() {
 
 struct WorkoutListView_Previews: PreviewProvider {
     static var previews: some View {
-        WorkoutListView(
-            viewModel:  WorkoutListViewModel(workoutStore: WorkoutStore())
-        )
+        WorkoutListView()
     }
 }
 
